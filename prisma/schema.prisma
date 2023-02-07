@@ -10,16 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ROLE {
+  MEMBER
+  ADMINISTRATOR
+  SUPER_ADMINISTRATOR
+}
+
 model User {
   id        String      @id @default(uuid())
   createdAt DateTime    @default(now())
   email     String      @unique
   name      String
   password  String
+  role      ROLE      @default(MEMBER)
   creator   Glosarium[] @relation("Creator")
   updater   Glosarium[] @relation("Updater")
-  
-
 }
 
 // anggrek 
