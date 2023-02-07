@@ -32,6 +32,13 @@ export const refreshToken = (user) => {
   return token
 }
 
+export const isAdmin = (user) => {
+  if (user.role === 'ADMINISTRATOR' || user.role === 'SUPER_ADMINISTRATOR') {
+    return true
+  }
+  return false
+}
+
 export const protect = (req, res, next) => {
   const bearer = req.headers.authorization
 
