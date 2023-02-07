@@ -44,10 +44,10 @@ app.use((err, req, res, next) => {
     res.json({ message: 'Unauthorized' })
   } else if (err.type === 'input') {
     res.status(400)
-    res.json({ message: 'Bad Request' })
+    res.json({ message: 'Invalid Input' })
   } else if (err.type === 'notFound') {
     res.status(404)
-    res.json({ message: `${message} Not Found` })
+    res.json({ message: `${message} Tidak Ditemukan` })
   } else {
     res.status(500)
     res.json({ message: 'Internal Server Error' })
