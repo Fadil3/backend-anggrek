@@ -18,7 +18,9 @@ const router = Router()
  * Glosarium
  */
 router.get('/glosarium', getGlosarium)
+
 router.get('/glosarium/:id', getOneGlosarium)
+
 router.post(
   '/glosarium',
   protect,
@@ -27,6 +29,7 @@ router.post(
   handleInputError,
   createGlosarium
 )
+
 router.put(
   '/glosarium/:id',
   protect,
@@ -35,6 +38,7 @@ router.put(
   handleInputError,
   updateGlosarium
 )
+
 router.delete('/glosarium/:id', protect, deleteGlosarium)
 
 export default router
