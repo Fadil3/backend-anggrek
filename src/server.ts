@@ -1,6 +1,7 @@
 import express from 'express'
 import router from './router'
 import morgan from 'morgan'
+
 import { body } from 'express-validator'
 import { createNewUser, signIn } from './handlers/user'
 import { handleInputError } from './modules/middleware'
@@ -10,7 +11,7 @@ const app = express()
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static('static'))
+app.use(express.static('public'))
 
 const port = process.env.PORT || 9999
 const path = require('path')
@@ -39,7 +40,18 @@ app.post(
 
 app.use((err, req, res, next) => {
   const { message } = err
-  if (err.type === 'auth') {
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    res.send({
+      result: 'fail',
+      error: { code: 1001, message: 'File is too big' },
+    })
+    return
+  } else if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+    res.send({
+      result: 'fail',
+      error: { code: 1002, message: 'Unexpected field' },
+    })
+  } else if (err.type === 'auth') {
     res.status(401)
     res.json({ message: 'Unauthorized' })
   } else if (err.type === 'input') {
@@ -48,6 +60,9 @@ app.use((err, req, res, next) => {
   } else if (err.type === 'notFound') {
     res.status(404)
     res.json({ message: `${message} Tidak Ditemukan` })
+  } else if (message) {
+    res.status(400)
+    res.json({ message })
   } else {
     res.status(500)
     res.json({ message: 'Internal Server Error' })

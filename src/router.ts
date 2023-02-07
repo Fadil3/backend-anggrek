@@ -1,6 +1,8 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
 
+import { uploadImageProfile } from './handlers/profile'
+import { multerUploadImage } from './modules/uploadImage'
 import {
   getGlosarium,
   getOneGlosarium,
@@ -13,6 +15,16 @@ import { protect } from './modules/auth'
 import { handleInputError } from './modules/middleware'
 
 const router = Router()
+
+/**
+ * Profile
+ */
+router.post(
+  '/profile',
+  protect,
+  multerUploadImage.single('avatar'),
+  uploadImageProfile
+)
 
 /**
  * Glosarium

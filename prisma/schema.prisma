@@ -17,14 +17,15 @@ enum ROLE {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  createdAt DateTime    @default(now())
-  email     String      @unique
-  name      String
-  password  String
-  role      ROLE      @default(MEMBER)
-  creator   Glosarium[] @relation("Creator")
-  updater   Glosarium[] @relation("Updater")
+  id            String      @id @default(uuid())
+  createdAt     DateTime    @default(now())
+  email         String      @unique
+  name          String
+  password      String
+  image_profile String?     @default("public\\uploads\\default-profile.png")
+  role          ROLE        @default(MEMBER)
+  creator       Glosarium[] @relation("Creator")
+  updater       Glosarium[] @relation("Updater")
 }
 
 // anggrek 
@@ -35,6 +36,6 @@ model Glosarium {
   name        String   @db.VarChar(255)
   description String
   createdBy   String
-  creator     User    @relation("Creator", fields: [createdBy], references: [id])
+  creator     User     @relation("Creator", fields: [createdBy], references: [id])
   updater     User[]   @relation("Updater")
 }
