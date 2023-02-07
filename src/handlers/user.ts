@@ -16,7 +16,7 @@ export const createNewUser = async (req, res, next) => {
 
   if (userExists) {
     return res.status(400).json({
-      message: 'User already exists',
+      message: 'Email sudah terdaftar',
     })
   }
 
@@ -57,6 +57,6 @@ export const signIn = async (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' })
   }
 
-  const token = createJWT(user)
-  res.json({ token })
+  const access_token = createJWT(user)
+  res.json({ access_token })
 }
