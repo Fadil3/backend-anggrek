@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(uuid())
+  createdAt DateTime    @default(now())
+  email     String      @unique
+  name      String
+  password  String
+  creator   Glosarium[] @relation("Creator")
+  updater   Glosarium[] @relation("Updater")
+  
+
+}
+
+// anggrek 
+model Glosarium {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String   @db.VarChar(255)
+  description String
+  createdBy   String
+  creator     User    @relation("Creator", fields: [createdBy], references: [id])
+  updater     User[]   @relation("Updater")
+}
