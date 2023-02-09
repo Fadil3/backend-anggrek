@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import prisma from '../db'
 
 export const comparePasswords = (password, hash) => {
   return bcrypt.compare(password, hash)
@@ -32,8 +33,18 @@ export const refreshToken = (user) => {
   return token
 }
 
-export const isAdmin = (user) => {
-  if (user.role === 'ADMINISTRATOR' || user.role === 'SUPER_ADMINISTRATOR') {
+export const isAdmin = async (user) => {
+  // Check if user is admin
+  const check = await prisma.user.findUnique({
+    where: {
+      id: user.id,
+    },
+    select: {
+      role: true,
+    },
+  })
+
+  if (check.role === 'ADMINISTRATOR' || check.role === 'SUPER_ADMINISTRATOR') {
     return true
   }
   return false
