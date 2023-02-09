@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
-    "test": "cross-env STAGE=testing jest",
+    "test": "cross-env STAGE=testing jest && npx prisma migrate reset -f",
     "dev": "cross-env STAGE=local nodemon src/index.ts",
     "start": "cross-env STAGE=production nodemon dist/index.js",
     "build": "tsc -p tsconfig.json"
@@ -21,6 +24,7 @@
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
     "jest": "^29.3.1",
+    "jest-html-reporter": "^3.7.0",
     "jsonwebtoken": "^8.5.1",
     "lodash.merge": "^4.6.2",
     "morgan": "^1.10.0",
