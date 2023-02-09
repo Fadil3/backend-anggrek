@@ -17,25 +17,56 @@ enum ROLE {
 }
 
 model User {
-  id            String      @id @default(uuid())
-  createdAt     DateTime    @default(now())
-  email         String      @unique
-  name          String
-  password      String
-  image_profile String?     @default("public\\uploads\\default-profile.png")
-  role          ROLE        @default(MEMBER)
-  creator       Glosarium[] @relation("Creator")
-  updater       Glosarium[] @relation("Updater")
+  id             String      @id @default(uuid())
+  createdAt      DateTime    @default(now())
+  email          String      @unique
+  name           String
+  password       String
+  image_profile  String?     @default("public\\uploads\\default-profile.png")
+  role           ROLE        @default(MEMBER)
+  contributor_glosarium UserOnGlosarium[]
+  creatorAnggrek Anggrek[]   @relation("Creator")
+  updaterAnggrek Anggrek[]   @relation("Updater")
 }
 
-// anggrek 
+// glosarium
 model Glosarium {
   id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   name        String   @db.VarChar(255)
   description String
+  contributor UserOnGlosarium[]
+}
+
+model UserOnGlosarium {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  glosarium   Glosarium @relation(fields: [glosariumId], references: [id])
+  glosariumId String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+// anggrek
+model Anggrek {
+  id          String         @id @default(uuid())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  name        String         @db.VarChar(255)
+  description String
   createdBy   String
-  creator     User     @relation("Creator", fields: [createdBy], references: [id])
-  updater     User[]   @relation("Updater")
+  photos      AnggrekPhoto[]
+  references  String
+  creator     User           @relation("Creator", fields: [createdBy], references: [id])
+  updater     User[]         @relation("Updater")
+}
+
+model AnggrekPhoto {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  path      String
+  anggrek   Anggrek  @relation(fields: [anggrekId], references: [id])
+  anggrekId String
 }
