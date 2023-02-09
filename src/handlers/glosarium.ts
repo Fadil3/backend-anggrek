@@ -5,20 +5,35 @@ import { isAdmin } from '../modules/auth'
 export const getGlosarium = async (req, res, next) => {
   try {
     const glosarium = await prisma.glosarium.findMany({
-      include: {
-        // get the user who updated & created the glosarium and fetch their name
-        creator: {
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        contributor: {
           select: {
-            name: true,
+            user: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
           },
-        },
-        updater: {
-          select: {
-            name: true,
-          },
+          distinct: ['userId'],
         },
       },
     })
+
+    // const flattenResult = glosarium.map((item) => {
+    //   return {
+    //     ...item,
+    //     contributor: item.contributor.map((item) => {
+    //       return {
+    //         name: item.user.name,
+    //         id: item.user.id,
+    //       }
+    //     }),
+    //   }
+    // })
 
     res.json({ data: glosarium })
   } catch (error) {
@@ -45,8 +60,7 @@ export const getOneGlosarium = async (req, res, next) => {
 
 // Create one
 export const createGlosarium = async (req, res, next) => {
-  // check if user is admin
-  if (!isAdmin(req.user)) {
+  if ((await isAdmin(req.user)) === false) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
@@ -55,17 +69,23 @@ export const createGlosarium = async (req, res, next) => {
       data: {
         name: req.body.name,
         description: req.body.description,
-        createdBy: req.user.id,
+        contributor: {
+          create: {
+            userId: req.user.id,
+          },
+        },
       },
     })
 
     res.json({
+      message: 'Glosarium berhasil dibuat',
       data: {
-        message: 'Glosarium berhasil dibuat',
-        data: glosarium.name,
+        id: glosarium.id,
+        name: glosarium.name,
       },
     })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 }
@@ -73,7 +93,7 @@ export const createGlosarium = async (req, res, next) => {
 // Update one
 export const updateGlosarium = async (req, res, next) => {
   // check if user is admin
-  if (!isAdmin(req.user)) {
+  if ((await isAdmin(req.user)) === false) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
@@ -85,9 +105,14 @@ export const updateGlosarium = async (req, res, next) => {
       data: {
         name: req.body.name,
         description: req.body.description,
-        updater: { connect: { id: req.user.id } },
+        contributor: {
+          create: {
+            userId: req.user.id,
+          },
+        },
       },
     })
+
     res.json({ message: 'Glosarium berhasil diupdate', data: updated })
   } catch (error) {
     error.type = 'notFound'
@@ -99,12 +124,23 @@ export const updateGlosarium = async (req, res, next) => {
 // Delete one
 export const deleteGlosarium = async (req, res, next) => {
   // check if user is admin
-  if (!isAdmin(req.user)) {
+  if ((await isAdmin(req.user)) === false) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
   try {
-    const deleted = await prisma.glosarium.delete({
+    const deleted = await prisma.glosarium.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        contributor: {
+          deleteMany: {},
+        },
+      },
+    })
+
+    const deletedGlosarium = await prisma.glosarium.delete({
       where: {
         id: req.params.id,
       },
