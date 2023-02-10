@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.use('/api', router)
 app.post(
-  '/user',
+  '/signup',
   body('email').exists().isEmail(),
   body('name').exists().isString(),
   body('password').exists().isString(),

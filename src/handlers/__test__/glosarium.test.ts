@@ -1,4 +1,3 @@
-import * as glosarium from '../glosarium'
 import app from '../../server'
 import request from 'supertest'
 

@@ -32,8 +32,8 @@ async function main() {
       name: 'Glosarium Seed',
       description: 'Glosarium Seed',
       contributor: {
-        connect: {
-          id: fadil.id,
+        create: {
+          userId: fadil.id,
         },
       },
     },
