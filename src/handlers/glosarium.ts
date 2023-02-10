@@ -35,7 +35,7 @@ export const getGlosarium = async (req, res, next) => {
     //   }
     // })
 
-    res.json({ data: glosarium })
+    res.json({ message: 'Berhasil mendapatkan data', data: glosarium })
   } catch (error) {
     next(error)
   }
@@ -50,9 +50,25 @@ export const getOneGlosarium = async (req, res, next) => {
       where: {
         id,
       },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        contributor: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+          },
+          distinct: ['userId'],
+        },
+      },
     })
 
-    res.json({ data: glosarium })
+    res.json({ message: 'Berhasil mendapatkan data', data: glosarium })
   } catch (error) {
     next(error)
   }

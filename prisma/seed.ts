@@ -27,6 +27,18 @@ async function main() {
     },
   })
 
+  const glosarium1 = await prisma.glosarium.create({
+    data: {
+      name: 'Glosarium Seed',
+      description: 'Glosarium Seed',
+      contributor: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+
   console.log('Seeding success...')
 }
 main()
