@@ -17,50 +17,59 @@ enum ROLE {
 }
 
 model User {
-  id             String      @id @default(uuid())
-  createdAt      DateTime    @default(now())
-  email          String      @unique
-  name           String
-  password       String
-  image_profile  String?     @default("public\\uploads\\default-profile.png")
-  role           ROLE        @default(MEMBER)
+  id                    String            @id @default(uuid())
+  createdAt             DateTime          @default(now())
+  email                 String            @unique
+  name                  String
+  password              String
+  image_profile         String?           @default("public\\uploads\\default-profile.png")
+  role                  ROLE              @default(MEMBER)
   contributor_glosarium UserOnGlosarium[]
-  creatorAnggrek Anggrek[]   @relation("Creator")
-  updaterAnggrek Anggrek[]   @relation("Updater")
+  contributor_anggrek   UserOnAnggrek[]
 }
 
 // glosarium
 model Glosarium {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  name        String   @db.VarChar(255)
+  id          String            @id @default(uuid())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  name        String            @db.VarChar(255)
   description String
   contributor UserOnGlosarium[]
 }
 
 model UserOnGlosarium {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   glosarium   Glosarium @relation(fields: [glosariumId], references: [id])
   glosariumId String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
   userId      String
 }
 
 // anggrek
 model Anggrek {
-  id          String         @id @default(uuid())
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  name        String         @db.VarChar(255)
+  id          String          @id @default(uuid())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  name        String          @db.VarChar(255)
   description String
-  createdBy   String
-  photos      AnggrekPhoto[]
   references  String
-  creator     User           @relation("Creator", fields: [createdBy], references: [id])
-  updater     User[]         @relation("Updater")
+  isApproved  Boolean         @default(false)
+  deletedAt   DateTime?
+  photos      AnggrekPhoto[]
+  contributor UserOnAnggrek[]
+}
+
+model UserOnAnggrek {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  anggrek   Anggrek  @relation(fields: [anggrekId], references: [id])
+  anggrekId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }
 
 model AnggrekPhoto {
