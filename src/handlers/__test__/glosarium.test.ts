@@ -6,7 +6,7 @@ const loginAdmin = async () => {
     .post('/signin')
     .send({ email: 'fadilAdmin@gmail.com', password: 'fadil123' })
 
-  return login.body.access_token
+  return login.body.data.access_token
 }
 
 const loginBiasa = async () => {
@@ -14,7 +14,7 @@ const loginBiasa = async () => {
     .post('/signin')
     .send({ email: 'fadil@gmail.com', password: 'fadil123' })
 
-  return login.body.access_token
+  return login.body.data.access_token
 }
 
 describe('CREATE Glosarium /glosarium', function () {

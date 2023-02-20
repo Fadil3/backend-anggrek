@@ -28,7 +28,7 @@ describe('LOGIN /signin', function () {
       password: 'fadil123',
     })
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toHaveProperty('access_token')
+    expect(res.body).toHaveProperty('data.access_token')
   })
 })
 
@@ -61,6 +61,6 @@ describe('CREATE USER /signup', function () {
     })
     // console.log(res)
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toHaveProperty('access_token')
+    expect(res.body).toHaveProperty('data.access_token')
   })
 })
