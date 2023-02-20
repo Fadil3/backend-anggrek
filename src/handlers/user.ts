@@ -32,7 +32,12 @@ export const createNewUser = async (req, res, next) => {
     })
 
     const access_token = createJWT(user)
-    res.json({ access_token, refreshToken })
+    res.json({
+      message: 'User berhasil dibuat',
+      data: {
+        access_token,
+      },
+    })
   } catch (error) {
     console.log(error)
     error.type = 'input'
@@ -58,5 +63,33 @@ export const signIn = async (req, res) => {
   }
 
   const access_token = createJWT(user)
-  res.json({ access_token })
+  res.json({
+    message: 'User berhasil masuk',
+    data: {
+      access_token,
+    },
+  })
+}
+
+export const checkAdmin = async (req, res, next) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: req.user.id,
+      },
+      select: {
+        role: true,
+      },
+    })
+
+    if (user.role === 'MEMBER') {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    return res.json({ message: 'Authorized' })
+  } catch (error) {
+    console.log(error)
+    error.type = 'input'
+    next(error)
+  }
 }
