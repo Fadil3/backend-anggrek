@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import prisma from '../db'
+const url = require('url')
 
 export const comparePasswords = (password, hash) => {
   return bcrypt.compare(password, hash)
@@ -11,10 +12,19 @@ export const hashPassword = (password) => {
 }
 
 export const createJWT = (user) => {
+  // path to url
+  const image_profile = url.format({
+    protocol: 'http',
+    host: 'localhost:9999',
+    pathname: `${user.image_profile.replace('public', '')}`,
+  })
+
   const token = jwt.sign(
     {
       id: user.id,
       email: user.email,
+      name: user.name,
+      image_profile,
     },
     process.env.JWT_SECRET
   )
