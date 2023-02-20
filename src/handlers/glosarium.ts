@@ -4,7 +4,11 @@ import { isAdmin } from '../modules/auth'
 // Get all
 export const getGlosarium = async (req, res, next) => {
   try {
+    const page = req.query.page || 1
+    const count = await prisma.glosarium.count()
     const glosarium = await prisma.glosarium.findMany({
+      skip: (page - 1) * 10,
+      take: 10,
       select: {
         id: true,
         name: true,
@@ -23,19 +27,28 @@ export const getGlosarium = async (req, res, next) => {
       },
     })
 
-    // const flattenResult = glosarium.map((item) => {
-    //   return {
-    //     ...item,
-    //     contributor: item.contributor.map((item) => {
-    //       return {
-    //         name: item.user.name,
-    //         id: item.user.id,
-    //       }
-    //     }),
-    //   }
-    // })
+    const flattenResult = glosarium.map((item) => {
+      return {
+        ...item,
+        contributor: item.contributor.map((item) => {
+          return {
+            name: item.user.name,
+            id: item.user.id,
+          }
+        }),
+      }
+    })
 
-    res.json({ message: 'Berhasil mendapatkan data', data: glosarium })
+    res.json({
+      message: 'Berhasil mendapatkan data',
+      data: flattenResult,
+      meta: {
+        current_page: page,
+        per_page: 10,
+        total: count,
+        total_page: Math.ceil(count / 10),
+      },
+    })
   } catch (error) {
     next(error)
   }
