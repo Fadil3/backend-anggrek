@@ -3,11 +3,14 @@ import router from './router'
 import morgan from 'morgan'
 
 import { body } from 'express-validator'
-import { createNewUser, signIn } from './handlers/user'
+import { createNewUser, signIn, checkAdmin } from './handlers/user'
 import { handleInputError } from './modules/middleware'
+import { protect } from './modules/auth'
 
 const app = express()
+const cors = require('cors')
 
+app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -37,6 +40,7 @@ app.post(
   handleInputError,
   signIn
 )
+app.get('/checkAdmin', protect, checkAdmin)
 
 app.use((err, req, res, next) => {
   const { message } = err
