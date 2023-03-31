@@ -1,6 +1,7 @@
 import prisma from '../db'
 import fs from 'fs'
 import { comparePasswords, hashPassword } from '../modules/auth'
+import { createJWT } from '../modules/auth'
 
 export const getUserProfile = async (req, res) => {
   try {
@@ -89,7 +90,12 @@ export const changePasswordUser = async (req, res) => {
       },
     })
 
-    res.json({ message: 'Berhasil update password', data: userUpdate })
+    const access_token = createJWT(userUpdate)
+
+    res.json({
+      message: 'Berhasil update password',
+      data: { userUpdate, access_token },
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ message: 'Internal server error' })
@@ -112,7 +118,8 @@ export const uploadImageProfile = async (req, res) => {
         email: req.user.email,
       },
       data: {
-        image_profile: req.file.path,
+        // serve path
+        image_profile: 'public\\uploads\\' + req.file.filename,
       },
     })
 
@@ -121,7 +128,12 @@ export const uploadImageProfile = async (req, res) => {
       fs.unlinkSync(oldImage.image_profile) // delete old image
     }
 
-    res.json({ message: 'Berhasil upload gambar', data: user })
+    const access_token = createJWT(user)
+
+    res.json({
+      message: 'Berhasil upload gambar',
+      data: { user, access_token },
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ message: 'Internal server error' })

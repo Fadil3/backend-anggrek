@@ -6,9 +6,19 @@ export const getGlosarium = async (req, res, next) => {
   try {
     const page = req.query.page || 1
     const count = await prisma.glosarium.count()
+    const search = req.query.search || ''
     const glosarium = await prisma.glosarium.findMany({
-      skip: (page - 1) * 10,
-      take: 10,
+      where: {
+        name: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+      // skip: (page - 1) * 10,
+      // take: 10,
       select: {
         id: true,
         name: true,

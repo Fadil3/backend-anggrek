@@ -26,6 +26,8 @@ model User {
   role                  ROLE              @default(MEMBER)
   contributor_glosarium UserOnGlosarium[]
   contributor_anggrek   UserOnAnggrek[]
+  posts                 Post[]
+  comments              Comment[]
 }
 
 // glosarium
@@ -78,4 +80,37 @@ model AnggrekPhoto {
   path      String
   anggrek   Anggrek  @relation(fields: [anggrekId], references: [id])
   anggrekId String
+}
+
+model Post {
+  id         String       @id @default(uuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  title      String
+  content    String       @db.Text
+  published  Boolean      @default(false)
+  author     User         @relation(fields: [authorId], references: [id])
+  authorId   String
+  comments   Comment[]
+  category   PostCategory @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+}
+
+model PostCategory {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  posts     Post[]
 }

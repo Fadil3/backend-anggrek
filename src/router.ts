@@ -36,7 +36,7 @@ const router = Router()
 router.post(
   '/upload-image-profile',
   protect,
-  multerUploadImage.single('avatar'),
+  multerUploadImage.single('image_profile'),
   uploadImageProfile
 )
 router.get('/profile', getUserProfile)
@@ -66,18 +66,19 @@ router.get('/anggrek/:id', getOneAnggrek)
 router.post(
   '/anggrek',
   protect,
-  body('name').exists().isString(),
-  body('description').exists().isString(),
-  body('references').exists().isString(),
+  multerUploadImage.array('foto_anggrek', 5),
+  body('name').exists().isString().isLength({ min: 3 }),
+  body('description').exists().isString().isLength({ min: 10 }),
+  body('references').exists().isString().isLength({ min: 10 }),
   handleInputError,
   createAnggrek
 )
 router.put(
   '/anggrek/:id',
   protect,
-  body('name').optional().isString(),
-  body('description').optional().isString(),
-  body('references').optional().isString(),
+  body('name').optional().isString().isLength({ min: 3 }),
+  body('description').exists().isString().isLength({ min: 10 }),
+  body('references').exists().isString().isLength({ min: 10 }),
   handleInputError,
   updateAnggrek
 )
@@ -108,8 +109,8 @@ router.post(
 router.put(
   '/glosarium/:id',
   protect,
-  body('name').exists().isString(),
-  body('description').exists().isString(),
+  body('name').exists().isString().notEmpty().isLength({ min: 3 }),
+  body('description').exists().isString().notEmpty().isLength({ min: 10 }),
   handleInputError,
   updateGlosarium
 )
