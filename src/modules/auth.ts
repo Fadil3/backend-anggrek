@@ -14,8 +14,8 @@ export const hashPassword = (password) => {
 export const createJWT = (user) => {
   // path to url
   const image_profile = url.format({
-    protocol: 'http',
-    host: 'localhost:9999',
+    protocol: 'https',
+    host: 'www.api.anggrekpedia.my.id',
     pathname: `${user.image_profile.replace('public', '')}`,
   })
 
