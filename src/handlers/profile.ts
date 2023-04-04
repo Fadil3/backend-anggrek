@@ -119,7 +119,7 @@ export const uploadImageProfile = async (req, res) => {
       },
       data: {
         // serve path
-        image_profile: 'public\\uploads\\' + req.file.filename,
+        image_profile: '/public/uploads/' + req.file.filename,
       },
     })
 
