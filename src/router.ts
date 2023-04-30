@@ -13,6 +13,7 @@ import {
   getOneAnggrek,
   createAnggrek,
   updateAnggrek,
+  deleteAnggrek,
   uploadImageAnggrek,
   deleteImageAnggrek,
 } from './handlers/anggrek'
@@ -36,7 +37,7 @@ const router = Router()
 router.post(
   '/upload-image-profile',
   protect,
-  multerUploadImage.single('image_profile'),
+  multerUploadImage('profile').single('image_profile'),
   uploadImageProfile
 )
 router.get('/profile', getUserProfile)
@@ -66,7 +67,7 @@ router.get('/anggrek/:id', getOneAnggrek)
 router.post(
   '/anggrek',
   protect,
-  multerUploadImage.array('foto_anggrek', 5),
+  multerUploadImage('anggrek').array('foto_anggrek', 5),
   body('name').exists().isString().isLength({ min: 3 }),
   body('description').exists().isString().isLength({ min: 10 }),
   body('references').exists().isString().isLength({ min: 10 }),
@@ -82,10 +83,11 @@ router.put(
   handleInputError,
   updateAnggrek
 )
+router.delete('/anggrek/:id', protect, deleteAnggrek)
 router.post(
   '/upload-image-anggrek',
   protect,
-  multerUploadImage.single('foto-anggrek'),
+  multerUploadImage('anggrek').single('foto-anggrek'),
   uploadImageAnggrek
 )
 router.delete('/delete-image-anggrek/:id', protect, deleteImageAnggrek)

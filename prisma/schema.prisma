@@ -22,7 +22,7 @@ model User {
   email                 String            @unique
   name                  String
   password              String
-  image_profile         String?           @default("public\\uploads\\default-profile.png")
+  image_profile         String?           @default("public\\uploads\\profile\\default-profile.png")
   role                  ROLE              @default(MEMBER)
   contributor_glosarium UserOnGlosarium[]
   contributor_anggrek   UserOnAnggrek[]
