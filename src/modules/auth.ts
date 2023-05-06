@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import prisma from '../db'
-const url = require('url')
+import { serveImage } from './serve_image'
+import config from '../config'
 
 export const comparePasswords = (password, hash) => {
   return bcrypt.compare(password, hash)
@@ -13,11 +14,11 @@ export const hashPassword = (password) => {
 
 export const createJWT = (user) => {
   // path to url
-  const image_profile = url.format({
-    protocol: 'https',
-    host: 'www.api.anggrekpedia.my.id',
-    pathname: `${user.image_profile.replace('public', '')}`,
-  })
+  const image_profile = serveImage(
+    config.protocol,
+    config.baseUrl,
+    user.image_profile
+  )
 
   const token = jwt.sign(
     {
@@ -26,7 +27,7 @@ export const createJWT = (user) => {
       name: user.name,
       image_profile,
     },
-    process.env.JWT_SECRET
+    config.jwtSecret
   )
   return token
 }
@@ -37,8 +38,7 @@ export const refreshToken = (user) => {
       id: user.id,
       email: user.email,
     },
-    { expiresIn: '1m' },
-    process.env.JWT_SECRET_REFRESH
+    { expiresIn: '1m' }
   )
   return token
 }
@@ -75,7 +75,7 @@ export const protect = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, config.jwtSecret)
 
     req.user = decoded
     next()
