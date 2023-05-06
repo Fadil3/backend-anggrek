@@ -28,6 +28,7 @@ model User {
   contributor_anggrek   UserOnAnggrek[]
   posts                 Post[]
   comments              Comment[]
+  articles              Article[]
 }
 
 // glosarium
@@ -77,23 +78,26 @@ model UserOnAnggrek {
 model AnggrekPhoto {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
+  caption   String  @default("")
   path      String
   anggrek   Anggrek  @relation(fields: [anggrekId], references: [id])
   anggrekId String
 }
 
 model Post {
-  id         String       @id @default(uuid())
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  title      String
-  content    String       @db.Text
-  published  Boolean      @default(false)
-  author     User         @relation(fields: [authorId], references: [id])
-  authorId   String
-  comments   Comment[]
-  category   PostCategory @relation(fields: [categoryId], references: [id])
-  categoryId String
+  id        String    @id @default(uuid())
+  slug      String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  title     String
+  content   String    @db.Text
+  published Boolean   @default(false)
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  comments  Comment[]
+  views     Views[]
+  // category   PostCategory @relation(fields: [categoryId], references: [id])
+  // categoryId String
 }
 
 model Comment {
@@ -107,10 +111,50 @@ model Comment {
   postId    String
 }
 
-model PostCategory {
+// model PostCategory {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   name      String
+//   posts     Post[]
+// }
+
+model Article {
+  id          String          @id @default(uuid())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  title       String
+  content     String          @db.Text
+  description String
+  infographic String
+  published   Boolean         @default(false)
+  author      User            @relation(fields: [authorId], references: [id])
+  authorId    String
+  categories  categoryOnArticle[]
+}
+
+model ArticleCategory {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  name      String
+  articles  categoryOnArticle[]
+}
+
+model categoryOnArticle {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
-  posts     Post[]
+  article   Article  @relation(fields: [articleId], references: [id])
+  articleId String
+  category  ArticleCategory  @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
+
+model Views {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  count     Int      @default(0)
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
 }
