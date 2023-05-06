@@ -1,5 +1,7 @@
+import config from '../config'
 import prisma from '../db'
 import { isAdmin } from '../modules/auth'
+import { serveImage } from '../modules/serve_image'
 
 export const createAnggrek = async (req, res, next) => {
   // check if user is admin
@@ -25,13 +27,15 @@ export const createAnggrek = async (req, res, next) => {
 
     // insert anggrek photo
     if (req.files.length !== 0) {
+      const captionPhoto = JSON.parse(req.body?.caption)
       try {
         const imageUpload = await prisma.anggrekPhoto.createMany({
           data: [
             // loop through the files and create a new object for each file
-            ...req.files.map((file) => ({
-              path: file.filename,
+            ...req.files.map((file, index) => ({
+              path: '/public/uploads/anggrek/' + file.filename,
               anggrekId: anggrek.id,
+              caption: captionPhoto[index],
             })),
           ],
         })
@@ -94,6 +98,7 @@ export const getAnggrek = async (req, res, next) => {
       },
       include: {
         contributor: {
+          distinct: ['userId'],
           select: {
             user: {
               select: {
@@ -107,12 +112,28 @@ export const getAnggrek = async (req, res, next) => {
           select: {
             id: true,
             path: true,
+            caption: true,
           },
         },
       },
     })
 
-    res.json({ data: anggrek })
+    // serve path
+    const anggrekWithPhoto = anggrek.map((item) => {
+      const photos = item.photos.map((photo) => {
+        return {
+          id: photo.id,
+          path: serveImage(config.protocol, config.baseUrl, photo.path),
+          caption: photo.caption,
+        }
+      })
+      return {
+        ...item,
+        photos,
+      }
+    })
+
+    res.json({ data: anggrekWithPhoto })
   } catch (error) {
     next(error)
   }
@@ -139,10 +160,26 @@ export const getOneAnggrek = async (req, res, next) => {
             },
           },
         },
+        photos: {
+          select: {
+            id: true,
+            path: true,
+            caption: true,
+          },
+        },
       },
     })
 
-    res.json({ data: anggrek })
+    // serve path
+    const anggrekWithPhoto = anggrek.photos.map((photo) => {
+      return {
+        id: photo.id,
+        path: serveImage(config.protocol, config.baseUrl, photo.path),
+        caption: photo.caption,
+      }
+    })
+
+    res.json({ data: { ...anggrek, photos: anggrekWithPhoto } })
   } catch (error) {
     next(error)
   }
@@ -180,9 +217,17 @@ export const uploadImageAnggrek = async (req, res, next) => {
     const anggrekPhoto = await prisma.anggrekPhoto.create({
       data: {
         anggrek: { connect: { id: req.params.id } },
-        path: req.file.filename,
+        path: '/public/uploads/anggrek/' + req.file.filename,
       },
     })
+
+    // serve path
+    anggrekPhoto.path = serveImage(
+      config.protocol,
+      config.baseUrl,
+      anggrekPhoto.path
+    )
+
     res.json({ message: 'Image berhasil diupload', data: anggrekPhoto })
   } catch (error) {
     next(error)
@@ -191,7 +236,7 @@ export const uploadImageAnggrek = async (req, res, next) => {
 
 export const deleteImageAnggrek = async (req, res, next) => {
   // check if user is admin
-  if (!isAdmin(req.user)) {
+  if (await !isAdmin(req.user)) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
@@ -204,7 +249,8 @@ export const deleteImageAnggrek = async (req, res, next) => {
 
     // delete image from server
     const fs = require('fs')
-    fs.unlink(`./uploads/${anggrekPhoto.path}`, (err) => {
+    const path = __dirname + '/../../' + anggrekPhoto.path
+    fs.unlink(`${path}`, (err) => {
       if (err) {
         console.error(err)
         return
