@@ -1,8 +1,7 @@
 export default {
-  port: 9898,
+  port: 9999,
   dbUrl: process.env.DATABASE_URL,
-  protocol: process.env.PROTOCOL_PROD,
-  baseUrl: process.env.BASE_URL_PROD,
+  baseUrl: process.env.BASE_URL,
   jwtSecret: process.env.JWT_SECRET,
   logging: false,
 }

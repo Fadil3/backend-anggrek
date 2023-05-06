@@ -6,6 +6,7 @@ import { body } from 'express-validator'
 import { createNewUser, signIn, checkAdmin } from './handlers/user'
 import { handleInputError } from './modules/middleware'
 import { protect } from './modules/auth'
+import config from './config'
 
 const app = express()
 const cors = require('cors')
@@ -16,7 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-const port = process.env.PORT || 9999
+const port = config?.port
 const path = require('path')
 
 app.get('/', (req, res) => {

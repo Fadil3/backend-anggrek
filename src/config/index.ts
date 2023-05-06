@@ -17,10 +17,6 @@ if (stage === 'production') {
 
 const defaultConfig = {
   stage,
-  dbUrl: process.env.DATABASE_URL,
-  jwtSecret: process.env.JWT_SECRET,
-  port: process.env.PORT,
-  logging: false,
 }
 
 export default merge(defaultConfig, envConfig)
