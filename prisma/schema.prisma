@@ -57,7 +57,11 @@ model Anggrek {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   name        String          @db.VarChar(255)
-  description String
+  localName   String          @default("")
+  description String          @default("")
+  degree      String          @default("")
+  light       String          @default("")
+  humidity    String          @default("")
   references  String
   isApproved  Boolean         @default(false)
   deletedAt   DateTime?
@@ -78,7 +82,8 @@ model UserOnAnggrek {
 model AnggrekPhoto {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  caption   String  @default("")
+  caption   String   @default("")
+  link      String   @default("")
   path      String
   anggrek   Anggrek  @relation(fields: [anggrekId], references: [id])
   anggrekId String
@@ -95,9 +100,9 @@ model Post {
   author    User      @relation(fields: [authorId], references: [id])
   authorId  String
   comments  Comment[]
-  views     Views[]
   // category   PostCategory @relation(fields: [categoryId], references: [id])
   // categoryId String
+  // Views     Views[]
 }
 
 model Comment {
@@ -120,41 +125,68 @@ model Comment {
 // }
 
 model Article {
-  id          String          @id @default(uuid())
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id          String              @id @default(uuid())
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
   title       String
-  content     String          @db.Text
+  content     String              @db.Text
   description String
-  infographic String
-  published   Boolean         @default(false)
-  author      User            @relation(fields: [authorId], references: [id])
+  published   Boolean             @default(false)
+  author      User                @relation(fields: [authorId], references: [id])
   authorId    String
   categories  categoryOnArticle[]
+  infographic Infographic[]
 }
 
+model Infographic {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  path      String
+  article   Article  @relation(fields: [articleId], references: [id])
+  articleId String
+}
+
+
+
 model ArticleCategory {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id        String              @id @default(uuid())
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
   name      String
   articles  categoryOnArticle[]
 }
 
 model categoryOnArticle {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  article   Article  @relation(fields: [articleId], references: [id])
-  articleId String
-  category  ArticleCategory  @relation(fields: [categoryId], references: [id])
+  id         String          @id @default(uuid())
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  article    Article         @relation(fields: [articleId], references: [id])
+  articleId  String
+  category   ArticleCategory @relation(fields: [categoryId], references: [id])
   categoryId String
 }
 
-model Views {
+model imageUpload {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  count     Int      @default(0)
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    String
+  updatedAt DateTime @updatedAt
+  path      String
 }
+
+// model Views {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   count     Int
+//   article   Article? @relation(fields: [articleId], references: [id])
+//   articleId String?
+//   post      Post?    @relation(fields: [postId], references: [id])
+//   postId    String?
+// }
+
+// model Likes {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   post      Post     @relation(fields: [postId], references: [id])
+//   postId    String
+// }
