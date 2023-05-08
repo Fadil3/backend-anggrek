@@ -9,13 +9,21 @@ export const createAnggrek = async (req, res, next) => {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
+  // destructuring req.body
+  const { name, description, references, localName, degree, light, humidity } =
+    req.body
+
   // insert anggrek and photo
   try {
     const anggrek = await prisma.anggrek.create({
       data: {
-        name: req.body.name,
-        description: req.body.description,
-        references: req.body.references,
+        name,
+        description,
+        localName: localName || '',
+        degree,
+        light,
+        humidity,
+        references,
         isApproved: true,
         contributor: {
           create: {
@@ -28,6 +36,8 @@ export const createAnggrek = async (req, res, next) => {
     // insert anggrek photo
     if (req.files.length !== 0) {
       const captionPhoto = JSON.parse(req.body?.caption)
+      const linkPhoto = JSON.parse(req.body?.link)
+      console.log('linkPhoto', linkPhoto)
       try {
         const imageUpload = await prisma.anggrekPhoto.createMany({
           data: [
@@ -36,6 +46,7 @@ export const createAnggrek = async (req, res, next) => {
               path: '/public/uploads/anggrek/' + file.filename,
               anggrekId: anggrek.id,
               caption: captionPhoto[index],
+              link: linkPhoto[index],
             })),
           ],
         })
@@ -65,15 +76,24 @@ export const updateAnggrek = async (req, res, next) => {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
+  // destructuring req.body
+  const { name, description, references, localName, degree, light, humidity } =
+    req.body
+
   try {
     const updated = await prisma.anggrek.update({
       where: {
         id: req.params.id,
       },
       data: {
-        name: req.body.name,
-        description: req.body.description,
-        references: req.body.references,
+        name,
+        description,
+        localName: localName || '',
+        degree,
+        light,
+        humidity,
+        references,
+        isApproved: true,
         contributor: {
           create: {
             userId: req.user.id,
@@ -113,6 +133,7 @@ export const getAnggrek = async (req, res, next) => {
             id: true,
             path: true,
             caption: true,
+            link: true,
           },
         },
       },
@@ -125,6 +146,7 @@ export const getAnggrek = async (req, res, next) => {
           id: photo.id,
           path: serveImage(config.protocol, config.baseUrl, photo.path),
           caption: photo.caption,
+          link: photo.link,
         }
       })
       return {
@@ -165,6 +187,7 @@ export const getOneAnggrek = async (req, res, next) => {
             id: true,
             path: true,
             caption: true,
+            link: true,
           },
         },
       },
@@ -176,6 +199,7 @@ export const getOneAnggrek = async (req, res, next) => {
         id: photo.id,
         path: serveImage(config.protocol, config.baseUrl, photo.path),
         caption: photo.caption,
+        link: photo.link,
       }
     })
 
