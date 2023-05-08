@@ -31,6 +31,9 @@ import {
   getDetailPost,
   getCommentPost,
   commentPost,
+  deletePost,
+  deleteComment,
+  updatePost,
 } from './handlers/forum'
 
 import {
@@ -44,6 +47,7 @@ import {
   getArticleUser,
   getDetailArticleUser,
   deleteArticleUser,
+  uploadImageArticle,
 } from './handlers/article'
 
 import {
@@ -56,8 +60,15 @@ import {
 import { multerUploadImage } from './modules/uploadImage'
 import { protect } from './modules/auth'
 import { handleInputError } from './modules/middleware'
+import rateLimit from 'express-rate-limit'
 
 const router = Router()
+const postLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 10 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
 
 /**
  * Profile
@@ -97,9 +108,15 @@ router.post(
   protect,
   multerUploadImage('anggrek').array('foto_anggrek', 5),
   body('name').exists().isString().isLength({ min: 3 }),
+  body('localName').optional().isString().isLength({ min: 3 }),
   body('description').exists().isString().isLength({ min: 10 }),
   body('references').exists().isString().isLength({ min: 10 }),
+  body('degree').exists().isString().isLength({ min: 3 }),
+  body('light').exists().isString().isLength({ min: 3 }),
+  body('humidity').exists().isString().isLength({ min: 3 }),
+
   body('caption').optional(),
+  body('link').optional(),
   handleInputError,
   createAnggrek
 )
@@ -153,15 +170,15 @@ router.delete('/glosarium/:id', protect, deleteGlosarium)
  */
 
 router.get('/forum', getPosts)
+router.get('/forum/:id', postLimiter, getDetailPost)
 router.get('/forum/:id/comments', getCommentPost)
+
 router.post(
   '/forum/:id/comments',
   protect,
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),
   commentPost
 )
-router.get('/forum/:id', getDetailPost)
-
 router.post(
   '/forum',
   protect,
@@ -170,6 +187,18 @@ router.post(
   handleInputError,
   createPost
 )
+
+router.put(
+  '/forum/:id',
+  protect,
+  body('title').exists().isString().notEmpty().isLength({ min: 3 }),
+  body('content').exists().isString().notEmpty().isLength({ min: 10 }),
+  handleInputError,
+  updatePost
+)
+
+router.delete('/forum/:id', protect, deletePost)
+router.delete('/comments/:id', protect, deleteComment)
 
 /**
  * Article
@@ -182,13 +211,22 @@ router.get('/articles/:id', getDetailArticle)
 router.post(
   '/articles',
   protect,
+  multerUploadImage('infographic').single('infographic'),
+  // multerUploadImage('articles').array('images', 5),
   body('title').exists().isString().notEmpty().isLength({ min: 3 }),
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),
   body('description').optional().isString().isLength({ min: 10 }),
   body('category').exists().notEmpty(),
-  body('infographic').optional(),
+  // body('infographic').optional(),
   handleInputError,
   createArticle
+)
+
+router.post(
+  '/upload-image-article',
+  protect,
+  multerUploadImage('articles').single('image'),
+  uploadImageArticle
 )
 
 router.put(
