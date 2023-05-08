@@ -12,7 +12,11 @@ export const multerUploadImage = (folderName) => {
     },
 
     filename: function (req, file, cb) {
-      cb(null, Date.now() + '_' + file.originalname)
+      const originalname = file.originalname
+      const sanitizedFilename = originalname
+        .replace(/[()]/g, '_')
+        .replace(/ /g, '_')
+      cb(null, Date.now() + '_' + sanitizedFilename)
     },
   })
 
