@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Anggrek" ADD COLUMN     "degree" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "humidity" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "light" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "localName" TEXT NOT NULL DEFAULT '',
+ALTER COLUMN "description" SET DEFAULT '';
