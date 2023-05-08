@@ -1,5 +1,7 @@
+import config from '../config'
 import prisma from '../db'
 import { isAdmin } from '../modules/auth'
+import { serveImage } from '../modules/serve_image'
 
 export const getArticles = async (req, res, next) => {
   try {
@@ -67,13 +69,12 @@ export const getDetailArticle = async (req, res, next) => {
 
 export const createArticle = async (req, res, next) => {
   try {
-    const { title, content, category, infographic, description } = req.body
+    const { title, content, category, description } = req.body
 
     const article = await prisma.article.create({
       data: {
         title,
         content,
-        infographic,
         published: (await isAdmin(req.user)) ? true : false,
         description,
         author: {
@@ -83,14 +84,38 @@ export const createArticle = async (req, res, next) => {
         },
         categories: {
           createMany: {
-            data: category.map((cat) => ({
+            data: JSON.parse(category).map((cat) => ({
               categoryId: cat,
             })),
           },
         },
       },
     })
-    res.json({ message: 'Berhasil membuat artikel', data: article })
+
+    // insert anggrek photo
+    if (req.files) {
+      try {
+        const imageUpload = await prisma.infographic.create({
+          data: {
+            path: '/public/uploads/infographic/' + req.file.filename,
+            articleId: article.id,
+          },
+        })
+        // console.log('imageUpload', imageUpload)
+      } catch (error) {
+        console.log(error)
+        next(error)
+      }
+    }
+
+    res.json({
+      message: 'Berhasil membuat artikel',
+      data: article,
+    })
+
+    // const views = await prisma.views.create({
+    //   data: { count: 1, article: { connect: { id: article.id } } },
+    // })
   } catch (error) {
     console.log(error)
     next(error)
@@ -257,6 +282,27 @@ export const deleteArticleUser = async (req, res, next) => {
     })
 
     res.json({ message: 'Berhasil menghapus artikel', data: article })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/**
+ * image upload
+ */
+
+export const uploadImageArticle = async (req, res, next) => {
+  try {
+    const image = await prisma.imageUpload.create({
+      data: {
+        path: '/public/uploads/articles/' + req.file.filename,
+      },
+    })
+
+    // serve path
+    image.path = serveImage(config.protocol, config.baseUrl, image.path)
+
+    res.json({ message: 'Image berhasil diupload', data: image })
   } catch (error) {
     next(error)
   }
