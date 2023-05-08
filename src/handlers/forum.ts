@@ -16,13 +16,7 @@ export const getPosts = async (req, res, next) => {
       orderBy: {
         title: 'asc',
       },
-      select: {
-        id: true,
-        slug: true,
-        createdAt: true,
-        updatedAt: true,
-        title: true,
-        content: true,
+      include: {
         author: {
           select: {
             name: true,
@@ -44,6 +38,7 @@ export const getPosts = async (req, res, next) => {
             },
           },
         },
+        // Views: true,
       },
       // skip: (page - 1) * 10,
       // take: 10,
@@ -93,8 +88,25 @@ export const getDetailPost = async (req, res, next) => {
             },
           },
         },
+        // Views: true,
       },
     })
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' })
+    }
+
+    // add view count
+    // await prisma.views.update({
+    //   where: {
+    //     id,
+    //   },
+    //   data: {
+    //     count: {
+    //       increment: 1,
+    //     },
+    //   },
+    // })
 
     res.json({
       message: 'Berhasil mendapatkan data',
@@ -106,17 +118,27 @@ export const getDetailPost = async (req, res, next) => {
 }
 
 export const deletePost = async (req, res, next) => {
+  const { id } = req.params
+
+  const post = await prisma.post.findFirst({
+    where: { id },
+    include: { author: true },
+  })
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post not found' })
+  }
+
+  if (post.author.id !== req.user.id && (await isAdmin(req.user)) === false) {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+
   try {
-    const { id } = req.params
-    const post = await prisma.post.delete({
-      where: {
-        id,
-      },
-    })
+    const deletedPost = await prisma.post.delete({ where: { id } })
 
     res.json({
       message: 'Berhasil menghapus data',
-      data: post,
+      data: deletedPost,
     })
   } catch (error) {
     next(error)
@@ -140,9 +162,49 @@ export const createPost = async (req, res, next) => {
       },
     })
 
+    // const views = await prisma.views.create({
+    //   data: { count: 1, article: { connect: { id: post.id } } },
+    // })
+
     res.json({
       message: 'Berhasil membuat data',
       data: post,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updatePost = async (req, res, next) => {
+  const { id } = req.params
+
+  const post = await prisma.post.findFirst({
+    where: { id },
+    include: { author: true },
+  })
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post not found' })
+  }
+
+  if (post.author.id !== req.user.id && (await isAdmin(req.user)) === false) {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+
+  try {
+    const { title, content } = req.body
+    const updatedPost = await prisma.post.update({
+      where: { id },
+      data: {
+        title,
+        slug: title.toLowerCase().replace(' ', '-'),
+        content,
+      },
+    })
+
+    res.json({
+      message: 'Berhasil mengupdate data',
+      data: updatedPost,
     })
   } catch (error) {
     next(error)
@@ -203,6 +265,37 @@ export const getCommentPost = async (req, res, next) => {
     res.json({
       message: 'Berhasil mendapatkan data',
       data: comments,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteComment = async (req, res, next) => {
+  const { id } = req.params
+
+  const comment = await prisma.comment.findFirst({
+    where: { id },
+    include: { author: true },
+  })
+
+  if (!comment) {
+    return res.status(404).json({ message: 'Comment not found' })
+  }
+
+  if (
+    comment.author.id !== req.user.id &&
+    (await isAdmin(req.user)) === false
+  ) {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+
+  try {
+    const deletedComment = await prisma.comment.delete({ where: { id } })
+
+    res.json({
+      message: 'Berhasil menghapus komentar',
+      data: deletedComment,
     })
   } catch (error) {
     next(error)
