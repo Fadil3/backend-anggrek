@@ -4,11 +4,17 @@ import { isAdmin } from '../modules/auth'
 import { serveImage } from '../modules/serve_image'
 
 export const getArticles = async (req, res, next) => {
+  const { page, limit, published } = req.query
+
+  let whereClause = {}
+  if (published) {
+    whereClause = {
+      published: published === 'true' ? true : false,
+    }
+  }
   try {
     const article = await prisma.article.findMany({
-      where: {
-        published: true,
-      },
+      where: whereClause,
       include: {
         author: {
           select: {
@@ -30,6 +36,7 @@ export const getArticles = async (req, res, next) => {
     })
     res.json({ message: 'Berhasil mendapatkan artikel', data: article })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 }
@@ -40,7 +47,7 @@ export const getDetailArticle = async (req, res, next) => {
     const article = await prisma.article.findFirst({
       where: {
         id,
-        published: true,
+        // published: true,
       },
       include: {
         author: {
@@ -59,9 +66,26 @@ export const getDetailArticle = async (req, res, next) => {
             },
           },
         },
+        infographic: true,
       },
     })
-    res.json({ message: 'Berhasil mendapatkan artikel', data: article })
+
+    // serve image infographic
+    if (article.infographic.length > 0) {
+      article.infographic[0].path = serveImage(
+        config.protocol,
+        config.baseUrl,
+        article.infographic[0].path
+      )
+    }
+
+    res.json({
+      message: 'Berhasil mendapatkan artikel',
+      data: {
+        ...article,
+        infographic: article.infographic[0],
+      },
+    })
   } catch (error) {
     next(error)
   }
@@ -76,6 +100,7 @@ export const createArticle = async (req, res, next) => {
         title,
         content,
         published: (await isAdmin(req.user)) ? true : false,
+        // draft: draft ? true : false,
         description,
         author: {
           connect: {
@@ -92,7 +117,6 @@ export const createArticle = async (req, res, next) => {
       },
     })
 
-    // insert anggrek photo
     if (req.files) {
       try {
         const imageUpload = await prisma.infographic.create({
@@ -112,10 +136,6 @@ export const createArticle = async (req, res, next) => {
       message: 'Berhasil membuat artikel',
       data: article,
     })
-
-    // const views = await prisma.views.create({
-    //   data: { count: 1, article: { connect: { id: article.id } } },
-    // })
   } catch (error) {
     console.log(error)
     next(error)
@@ -124,7 +144,7 @@ export const createArticle = async (req, res, next) => {
 
 export const updateArticle = async (req, res, next) => {
   try {
-    const { title, content, category, infographic, description } = req.body
+    const { title, content, category, description } = req.body
     const article = await prisma.article.update({
       where: {
         id: req.params.id,
@@ -132,11 +152,16 @@ export const updateArticle = async (req, res, next) => {
       data: {
         title,
         content,
-        infographic,
         description,
+        // draft: draft ? true : false,
         categories: {
-          create: {
-            categoryId: category,
+          deleteMany: {
+            articleId: req.params.id,
+          },
+          createMany: {
+            data: JSON.parse(category).map((cat) => ({
+              categoryId: cat,
+            })),
           },
         },
       },
@@ -219,12 +244,7 @@ export const getArticleUser = async (req, res, next) => {
             id: true,
           },
         },
-        // category: {
-        //   select: {
-        //     name: true,
-        //     id: true,
-        //   },
-        // },
+        categories: true,
       },
     })
     res.json({ message: 'Berhasil mendapatkan artikel', data: article })
@@ -303,6 +323,48 @@ export const uploadImageArticle = async (req, res, next) => {
     image.path = serveImage(config.protocol, config.baseUrl, image.path)
 
     res.json({ message: 'Image berhasil diupload', data: image })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const uploadImageInfographic = async (req, res, next) => {
+  try {
+    const image = await prisma.infographic.create({
+      data: {
+        path: '/public/uploads/infographic/' + req.file.filename,
+        articleId: req.params.id,
+      },
+    })
+
+    // serve path
+    image.path = serveImage(config.protocol, config.baseUrl, image.path)
+
+    res.json({ message: 'Image berhasil diupload', data: image })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteImageInfographic = async (req, res, next) => {
+  try {
+    const image = await prisma.infographic.delete({
+      where: {
+        id: req.params.id,
+      },
+    })
+
+    // delete image from server
+    const fs = require('fs')
+    const path = __dirname + '/../../' + image.path
+    fs.unlink(`${path}`, (err) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+    })
+
+    res.json({ message: 'Image berhasil dihapus', data: image })
   } catch (error) {
     next(error)
   }

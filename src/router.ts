@@ -48,6 +48,8 @@ import {
   getDetailArticleUser,
   deleteArticleUser,
   uploadImageArticle,
+  uploadImageInfographic,
+  deleteImageInfographic,
 } from './handlers/article'
 
 import {
@@ -212,12 +214,11 @@ router.post(
   '/articles',
   protect,
   multerUploadImage('infographic').single('infographic'),
-  // multerUploadImage('articles').array('images', 5),
   body('title').exists().isString().notEmpty().isLength({ min: 3 }),
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),
   body('description').optional().isString().isLength({ min: 10 }),
   body('category').exists().notEmpty(),
-  // body('infographic').optional(),
+  // body('draft').optional().isBoolean(),
   handleInputError,
   createArticle
 )
@@ -229,13 +230,23 @@ router.post(
   uploadImageArticle
 )
 
+router.post(
+  '/upload-image-infographic/:id',
+  protect,
+  multerUploadImage('infographic').single('infographic'),
+  uploadImageInfographic
+)
+
+router.delete('/delete-image-infographic/:id', protect, deleteImageInfographic)
+
 router.put(
   '/articles/:id',
   protect,
   body('title').exists().isString().notEmpty().isLength({ min: 3 }),
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),
   body('description').optional().isString().isLength({ min: 10 }),
-  body('category').exists().isInt().notEmpty(),
+  body('category').exists().notEmpty(),
+  // body('draft').optional().isBoolean(),
   handleInputError,
   updateArticle
 )
