@@ -7,6 +7,7 @@ import {
   getUserProfileById,
   editUserProfile,
   changePasswordUser,
+  getUserContributions,
 } from './handlers/profile'
 import {
   getAnggrek,
@@ -83,6 +84,7 @@ router.post(
 )
 router.get('/profile', getUserProfile)
 router.get('/profile/:id', getUserProfileById)
+router.get('/user-contribution/:id', getUserContributions)
 router.put(
   '/profile',
   protect,

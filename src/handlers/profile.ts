@@ -33,10 +33,123 @@ export const getUserProfileById = async (req, res) => {
         name: true,
         email: true,
         image_profile: true,
+        posts: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        articles: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        contributor_anggrek: {
+          select: {
+            anggrek: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        contributor_glosarium: {
+          select: {
+            glosarium: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+          },
+        },
       },
     })
 
     res.json({ data: user })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+export const getUserContributions = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.params.id,
+      },
+      select: {
+        posts: {
+          select: {
+            id: true,
+            title: true,
+          },
+          take: 5,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        articles: {
+          select: {
+            id: true,
+            title: true,
+          },
+          take: 5,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        contributor_anggrek: {
+          select: {
+            anggrek: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+          take: 5,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        contributor_glosarium: {
+          select: {
+            glosarium: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+          take: 5,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+          },
+          take: 5,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+    })
+
+    res.json({ message: 'berhasil mendapatkan data', data: user })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ message: 'Internal server error' })

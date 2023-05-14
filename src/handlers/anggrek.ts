@@ -116,18 +116,9 @@ export const getAnggrek = async (req, res, next) => {
         deletedAt: null,
         isApproved: true,
       },
-      include: {
-        contributor: {
-          distinct: ['userId'],
-          select: {
-            user: {
-              select: {
-                name: true,
-                id: true,
-              },
-            },
-          },
-        },
+      select: {
+        id: true,
+        name: true,
         photos: {
           select: {
             id: true,
