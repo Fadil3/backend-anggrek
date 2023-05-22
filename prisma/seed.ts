@@ -200,22 +200,105 @@ async function main() {
 
   const fotoAmbon = [
     {
+      path: `/public/uploads/anggrek/phalaenopsis_amboinensis2.jpg`,
+      anggrekId: phalAmbon.id,
+      caption: 'Deutsche Orchideen-Gesellschaft e.V. - Gruppe Teutoburger Wald',
+      link: 'https://www.facebook.com/DOGTeutoburgerWald/photos/pcb.530681187426873/530680744093584/?type=3&theater&ifg=1',
+    },
+    {
       path: `/public/uploads/anggrek/phalaenopsis_amboinensis.jpg`,
       anggrekId: phalAmbon.id,
       caption:
         'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
       link: '-',
     },
-    {
-      path: `/public/uploads/anggrek/phalaenopsis_amboinensis2.jpg`,
-      anggrekId: phalAmbon.id,
-      caption: 'Deutsche Orchideen-Gesellschaft e.V. - Gruppe Teutoburger Wald',
-      link: 'https://www.facebook.com/DOGTeutoburgerWald/photos/pcb.530681187426873/530680744093584/?type=3&theater&ifg=1',
-    },
   ]
 
   const insertAnggrekAmbon = await Promise.all([
     fotoAmbon.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const vandaSumatra = await prisma.anggrek.create({
+    data: {
+      name: 'Vanda sumatrana Schltr.',
+      description: `Tanaman ini berasal dari pulau Sumatera, karenanya dalam ilmu tumbuh-tumbuhan dinamakan Vanda sumatrana.
+Batangnya tegak, kuat dan dapat mencapai tinggi 1,5 m. Daunnya Merupakan tipe daun sabuk dengan panjang ± 45 cm; tersusun rapat dan melengkung ke luar. Bunganya tersusun dalam bentuk tandan yang muncul dari ketiak daun. Setiap tandan menyangga 2 - 7 kuntum bunga. Bunganya berwarna gelap, merah coklat pada pangkal daun-daun mahkotanya sedangkan ujung-ujungnya berwarna coklat kehitaman. Garis tengahnya 5 - 7 cm. Buahnya berbentuk jorong dan bersekat enam.
+Umumnya vanda sumatra ini tumbuh baik di dataran rendah. Bunganya memiliki keharuman yang lembut mirip bau kayu manis. Ke-tahanan mekarnya antara 10 - 14 hari.`,
+      localName: 'Anggrek Vanda Sumatera',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const fotoVandaSumatrana = [
+    {
+      path: `/public/uploads/anggrek/vanda_sumatrana1.jpg`,
+      anggrekId: vandaSumatra.id,
+      caption:
+        'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
+      link: '-',
+    },
+    {
+      path: `/public/uploads/anggrek/vanda_sumatrana1.jpg`,
+      anggrekId: vandaSumatra.id,
+      caption:
+        'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
+      link: '-',
+    },
+  ]
+
+  const insertVandaSumatrana = await Promise.all([
+    fotoVandaSumatrana.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const cbdHarti = await prisma.anggrek.create({
+    data: {
+      name: 'Cymbidium hartinahianum',
+      description: `Nama jenis hartinahianum berasal dari nama Siti Hartinah Suharto.Yang memberi nama ialah J.B.Com-ber dan Rusydi E. Nasution. Sdr. R.E. Nasution adalah salah seorang staf Kebun Raya Bogor yang mempunyai minat dalam penelitian anggrek.
+Tumbuhan ini adalah anggrek tanah yang pertumbuhannya merumpun. Batangnya sangat pendek, berbentuk bulat telur, tertutup rapat oleh daun. Daunnya berbentuk pita berujung runcing, panjangnya 50-60 cm. Bunganya berbentuk bintang,berukuran 3,5 cm,bertekstur tebal. Daun kelopak dan daun mahkota hampir sama besar. sedang permukaan atas berwarna kuning kehijauan dan permukaan bawahnya berwarna kecoklatan dengan kuning di bagian tepinya. Gagang perjuangannya tegak.
+Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tumbuh baik di tempat terbuka di antara rerumputan,pada ketinggian 1.700 m dpl. Di tempat asalnya anggrek ini belum dimanfaatkan, tetapi bunganya yang menarik dapat digunakan sebagai bunga potongan atau sebagai tanaman hias. Umumnya Cymbidium. mempunyai karangan bunga yang merunduk. Tetapi  ini termasuk Cymbidium yang mempunyai karangan bunga tegak, karenanya baik untuk silangan`,
+      localName: 'Anggrek Vanda Sumatera',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const fotoCbdHarti = [
+    {
+      path: `/public/uploads/anggrek/cbd_hartinahianum.jpg`,
+      anggrekId: cbdHarti.id,
+      caption:
+        'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
+      link: '-',
+    },
+  ]
+
+  const insertCbdHarti = await Promise.all([
+    fotoCbdHarti.map(async (data) => {
       return prisma.anggrekPhoto.create({
         data,
       })
