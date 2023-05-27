@@ -38,7 +38,7 @@ export const getPosts = async (req, res, next) => {
             },
           },
         },
-        // Views: true,
+        view: true,
       },
       // skip: (page - 1) * 10,
       // take: 10,
@@ -88,7 +88,7 @@ export const getDetailPost = async (req, res, next) => {
             },
           },
         },
-        // Views: true,
+        view: true,
       },
     })
 
@@ -97,16 +97,26 @@ export const getDetailPost = async (req, res, next) => {
     }
 
     // add view count
-    // await prisma.views.update({
-    //   where: {
-    //     id,
-    //   },
-    //   data: {
-    //     count: {
-    //       increment: 1,
-    //     },
-    //   },
-    // })
+
+    if (!post.view) {
+      // If the post doesn't have a View record yet, create one
+      await prisma.view.create({
+        data: {
+          postId: post.id,
+          count: 1,
+        },
+      })
+    } else {
+      // If the post already has a View record, increment the count
+      await prisma.view.update({
+        where: { id: post.view.id },
+        data: {
+          count: {
+            increment: 1,
+          },
+        },
+      })
+    }
 
     res.json({
       message: 'Berhasil mendapatkan data',
@@ -159,13 +169,13 @@ export const createPost = async (req, res, next) => {
             id: req.user.id,
           },
         },
+        view: {
+          create: {
+            count: 0,
+          },
+        },
       },
     })
-
-    // const views = await prisma.views.create({
-    //   data: { count: 1, article: { connect: { id: post.id } } },
-    // })
-
     res.json({
       message: 'Berhasil membuat data',
       data: post,

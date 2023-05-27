@@ -104,6 +104,7 @@ model Post {
   author    User      @relation(fields: [authorId], references: [id])
   authorId  String
   comments  Comment[]
+    view View?
   // category   PostCategory @relation(fields: [categoryId], references: [id])
   // categoryId String
   // Views     Views[]
@@ -136,11 +137,11 @@ model Article {
   content     String              @db.Text
   description String
   published   Boolean             @default(false)
-  // draft       Boolean             @default(false)
   author      User                @relation(fields: [authorId], references: [id])
   authorId    String
   categories  categoryOnArticle[]
   infographic Infographic[]
+    view View?
 }
 
 model Infographic {
@@ -179,15 +180,15 @@ model imageUpload {
   path      String
 }
 
-// model Views {
-//   id        String   @id @default(uuid())
-//   createdAt DateTime @default(now())
-//   count     Int
-//   article   Article? @relation(fields: [articleId], references: [id])
-//   articleId String?
-//   post      Post?    @relation(fields: [postId], references: [id])
-//   postId    String?
-// }
+model View {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  count     Int      @default(1)
+  postId    String?  @unique
+  post      Post?    @relation(fields: [postId], references: [id])
+  articleId String?  @unique
+  article   Article? @relation(fields: [articleId], references: [id])
+}
 
 // model Likes {
 //   id        String   @id @default(uuid())
