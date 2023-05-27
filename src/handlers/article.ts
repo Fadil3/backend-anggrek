@@ -2,6 +2,7 @@ import config from '../config'
 import prisma from '../db'
 import { isAdmin } from '../modules/auth'
 import { serveImage } from '../modules/serve_image'
+import { createUniqueSlugArticle } from '../modules/slug'
 
 export const getArticles = async (req, res, next) => {
   const { page, limit, published } = req.query
@@ -43,10 +44,10 @@ export const getArticles = async (req, res, next) => {
 
 export const getDetailArticle = async (req, res, next) => {
   try {
-    const id = req.params.id
+    const slug = req.params.slug
     const article = await prisma.article.findFirst({
       where: {
-        id,
+        slug,
         // published: true,
       },
       include: {
@@ -121,7 +122,7 @@ export const createArticle = async (req, res, next) => {
         title,
         content,
         published: (await isAdmin(req.user)) ? true : false,
-        // draft: draft ? true : false,
+        slug: await createUniqueSlugArticle(title),
         description,
         author: {
           connect: {
@@ -169,20 +170,38 @@ export const createArticle = async (req, res, next) => {
 }
 
 export const updateArticle = async (req, res, next) => {
+  const { slug } = req.params
+  const { title, content, category, description } = req.body
+  const article = await prisma.article.findFirst({
+    where: { slug },
+    include: { author: true },
+  })
+
+  if (!article) {
+    return res.status(404).json({ message: 'Article not found' })
+  }
+
+  if (
+    article.author.id !== req.user.id &&
+    (await isAdmin(req.user)) === false
+  ) {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
   try {
-    const { title, content, category, description } = req.body
-    const article = await prisma.article.update({
+    const newSlug =
+      article.title !== title ? await createUniqueSlugArticle(title) : slug
+    const updatedArticle = await prisma.article.update({
       where: {
-        id: req.params.id,
+        slug: req.params.slug,
       },
       data: {
         title,
         content,
         description,
-        // draft: draft ? true : false,
+        slug: newSlug,
         categories: {
           deleteMany: {
-            articleId: req.params.id,
+            articleId: article.id,
           },
           createMany: {
             data: JSON.parse(category).map((cat) => ({
@@ -192,7 +211,7 @@ export const updateArticle = async (req, res, next) => {
         },
       },
     })
-    res.json({ message: 'Berhasil mengupdate artikel', data: article })
+    res.json({ message: 'Berhasil mengupdate artikel', data: updatedArticle })
   } catch (error) {
     next(error)
   }

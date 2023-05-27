@@ -174,7 +174,7 @@ router.delete('/glosarium/:id', protect, deleteGlosarium)
  */
 
 router.get('/forum', getPosts)
-router.get('/forum/:id', postLimiter, getDetailPost)
+router.get('/forum/:slug', postLimiter, getDetailPost)
 router.get('/forum/:id/comments', getCommentPost)
 
 router.post(
@@ -193,7 +193,7 @@ router.post(
 )
 
 router.put(
-  '/forum/:id',
+  '/forum/:slug',
   protect,
   body('title').exists().isString().notEmpty().isLength({ min: 3 }),
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),
@@ -210,7 +210,7 @@ router.delete('/comments/:id', protect, deleteComment)
  */
 
 router.get('/articles', getArticles)
-router.get('/articles/:id', getDetailArticle)
+router.get('/articles/:slug', getDetailArticle)
 
 router.post(
   '/articles',
@@ -242,7 +242,7 @@ router.post(
 router.delete('/delete-image-infographic/:id', protect, deleteImageInfographic)
 
 router.put(
-  '/articles/:id',
+  '/articles/:slug',
   protect,
   body('title').exists().isString().notEmpty().isLength({ min: 3 }),
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),

@@ -1,5 +1,6 @@
 import prisma from '../db'
 import { isAdmin } from '../modules/auth'
+import { createUniqueSlugPost } from '../modules/slug'
 
 export const getPosts = async (req, res, next) => {
   try {
@@ -61,10 +62,10 @@ export const getPosts = async (req, res, next) => {
 
 export const getDetailPost = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { slug } = req.params
     const post = await prisma.post.findFirst({
       where: {
-        id,
+        slug,
       },
       include: {
         author: {
@@ -95,8 +96,6 @@ export const getDetailPost = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ message: 'Post not found' })
     }
-
-    // add view count
 
     if (!post.view) {
       // If the post doesn't have a View record yet, create one
@@ -158,10 +157,11 @@ export const deletePost = async (req, res, next) => {
 export const createPost = async (req, res, next) => {
   try {
     const { title, content } = req.body
+    const slug = await createUniqueSlugPost(title)
     const post = await prisma.post.create({
       data: {
         title,
-        slug: title.toLowerCase().replace(' ', '-'),
+        slug,
         content,
         published: true,
         author: {
@@ -186,10 +186,9 @@ export const createPost = async (req, res, next) => {
 }
 
 export const updatePost = async (req, res, next) => {
-  const { id } = req.params
-
+  const { slug } = req.params
   const post = await prisma.post.findFirst({
-    where: { id },
+    where: { slug },
     include: { author: true },
   })
 
@@ -203,11 +202,13 @@ export const updatePost = async (req, res, next) => {
 
   try {
     const { title, content } = req.body
+    const newSlug =
+      post.title !== title ? await createUniqueSlugPost(title) : slug
     const updatedPost = await prisma.post.update({
-      where: { id },
+      where: { id: post.id },
       data: {
         title,
-        slug: title.toLowerCase().replace(' ', '-'),
+        slug: newSlug,
         content,
       },
     })

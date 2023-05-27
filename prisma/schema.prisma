@@ -95,7 +95,7 @@ model AnggrekPhoto {
 
 model Post {
   id        String    @id @default(uuid())
-  slug      String    @default("")
+  slug        String              @default("") @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   title     String
@@ -131,6 +131,7 @@ model Comment {
 
 model Article {
   id          String              @id @default(uuid())
+  slug        String              @default("") @unique
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   title       String

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { hashPassword } from '../src/modules/auth'
+import { createUniqueSlugArticle } from '../src/modules/slug'
 const prisma = new PrismaClient()
 async function main() {
   console.log('Start seeding ...')
@@ -166,6 +167,9 @@ async function main() {
   Melindungi jenis anggrek ini adalah upaya untuk menjaga keanekaragaman hayati di Indonesia dan memastikan bahwa spesies-spesies tersebut tetap ada untuk dinikmati oleh generasi-generasi mendatang.
   `,
       published: true,
+      slug: await createUniqueSlugArticle(
+        'Jenis Anggrek yang Dilindungi Berdasarkan Peraturan Menteri Lingkungan Hidup dan Kehutanan Republik Indonesia'
+      ),
       description:
         'Berbagai spesies tumbuhan dan hewan di Indonesia dilindungi oleh undang-undang demi menjaga keanekaragaman hayati di Indonesia. Salah satu kelompok tumbuhan yang dilindungi adalah anggrek.',
       // connect to category
