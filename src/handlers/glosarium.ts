@@ -4,9 +4,19 @@ import { isAdmin } from '../modules/auth'
 // Get all
 export const getGlosarium = async (req, res, next) => {
   try {
-    const page = req.query.page || 1
-    const count = await prisma.glosarium.count()
+    const page = parseInt(req.query.page) || 1
     const search = req.query.search || ''
+    const count = search
+      ? await prisma.glosarium.count({
+          where: {
+            name: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        })
+      : await prisma.glosarium.count()
+    const per_page = parseInt(req.query.per_page) || 5
     const glosarium = await prisma.glosarium.findMany({
       where: {
         name: {
@@ -17,8 +27,8 @@ export const getGlosarium = async (req, res, next) => {
       orderBy: {
         name: 'asc',
       },
-      // skip: (page - 1) * 10,
-      // take: 10,
+      skip: (page - 1) * per_page,
+      take: per_page,
       select: {
         id: true,
         name: true,
@@ -54,9 +64,9 @@ export const getGlosarium = async (req, res, next) => {
       data: flattenResult,
       meta: {
         current_page: page,
-        per_page: 10,
+        per_page: per_page,
         total: count,
-        total_page: Math.ceil(count / 10),
+        total_page: Math.ceil(count / per_page),
       },
     })
   } catch (error) {

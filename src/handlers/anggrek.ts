@@ -111,11 +111,30 @@ export const updateAnggrek = async (req, res, next) => {
 
 export const getAnggrek = async (req, res, next) => {
   try {
+    const page = parseInt(req.query.page) || 1
+    const search = req.query.search || ''
+    const count = search
+      ? await prisma.anggrek.count({
+          where: {
+            name: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        })
+      : await prisma.anggrek.count()
+    const per_page = parseInt(req.query.per_page) || 5
     const anggrek = await prisma.anggrek.findMany({
       where: {
         deletedAt: null,
         isApproved: true,
+        name: {
+          contains: search,
+          mode: 'insensitive',
+        },
       },
+      skip: (page - 1) * per_page,
+      take: per_page,
       select: {
         id: true,
         name: true,
@@ -125,6 +144,15 @@ export const getAnggrek = async (req, res, next) => {
             path: true,
             caption: true,
             link: true,
+          },
+        },
+        contributor: {
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -146,7 +174,15 @@ export const getAnggrek = async (req, res, next) => {
       }
     })
 
-    res.json({ data: anggrekWithPhoto })
+    res.json({
+      data: anggrekWithPhoto,
+      meta: {
+        current_page: page,
+        per_page: per_page,
+        total: count,
+        total_page: Math.ceil(count / per_page),
+      },
+    })
   } catch (error) {
     next(error)
   }
