@@ -3,10 +3,20 @@ import { isAdmin } from '../modules/auth'
 import { createUniqueSlugPost } from '../modules/slug'
 
 export const getPosts = async (req, res, next) => {
-  const page = req.query.page || 1
-  const count = await prisma.post.count()
+  const page = parseInt(req.query.page) || 1
   const search = req.query.search || ''
+  const count = search
+    ? await prisma.post.count({
+        where: {
+          title: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+      })
+    : await prisma.post.count()
   const sortAttribute = req.query.sort || ''
+  const per_page = parseInt(req.query.per_page) || 5
 
   let orderByClause = {}
 
@@ -56,8 +66,8 @@ export const getPosts = async (req, res, next) => {
           },
         },
       },
-      // skip: (page - 1) * 10,
-      // take: 10,
+      skip: (page - 1) * per_page,
+      take: per_page,
     })
 
     res.json({
@@ -65,9 +75,9 @@ export const getPosts = async (req, res, next) => {
       data: posts,
       meta: {
         current_page: page,
-        per_page: 10,
+        per_page: per_page,
         total: count,
-        total_page: Math.ceil(count / 10),
+        total_page: Math.ceil(count / per_page),
       },
     })
   } catch (error) {
