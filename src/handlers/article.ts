@@ -5,17 +5,57 @@ import { serveImage } from '../modules/serve_image'
 import { createUniqueSlugArticle } from '../modules/slug'
 
 export const getArticles = async (req, res, next) => {
-  const { page, limit, published } = req.query
-
+  const published = req.query.published || false
+  const page = parseInt(req.query.page) || 1
+  const search = req.query.search || ''
+  const categorySearch = req.query.category || ''
   let whereClause = {}
   if (published) {
     whereClause = {
       published: published === 'true' ? true : false,
     }
   }
+  const count =
+    search || categorySearch || published
+      ? await prisma.article.count({
+          where: {
+            categories: {
+              some: {
+                category: {
+                  id: {
+                    contains: categorySearch,
+                  },
+                },
+              },
+            },
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+            ...whereClause,
+          },
+        })
+      : await prisma.article.count()
+  const per_page = parseInt(req.query.per_page) || 5
+
   try {
     const article = await prisma.article.findMany({
-      where: whereClause,
+      where: {
+        categories: {
+          some: {
+            category: {
+              id: {
+                contains: categorySearch,
+              },
+            },
+          },
+        },
+        title: {
+          contains: search,
+          mode: 'insensitive',
+        },
+        ...whereClause,
+      },
       include: {
         author: {
           select: {
@@ -34,8 +74,19 @@ export const getArticles = async (req, res, next) => {
           },
         },
       },
+      skip: (page - 1) * per_page,
+      take: per_page,
     })
-    res.json({ message: 'Berhasil mendapatkan artikel', data: article })
+    res.json({
+      message: 'Berhasil mendapatkan artikel',
+      data: article,
+      meta: {
+        current_page: page,
+        per_page: per_page,
+        total: count,
+        total_page: Math.ceil(count / per_page),
+      },
+    })
   } catch (error) {
     console.log(error)
     next(error)
