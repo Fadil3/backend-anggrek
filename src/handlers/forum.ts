@@ -3,20 +3,36 @@ import { isAdmin } from '../modules/auth'
 import { createUniqueSlugPost } from '../modules/slug'
 
 export const getPosts = async (req, res, next) => {
+  const page = req.query.page || 1
+  const count = await prisma.post.count()
+  const search = req.query.search || ''
+  const sortAttribute = req.query.sort || ''
+
+  let orderByClause = {}
+
+  if (sortAttribute === 'view') {
+    // Assume view is a count field in your Post model
+    orderByClause = {
+      viewCount: 'desc',
+    }
+  } else if (sortAttribute === 'date') {
+    orderByClause = {
+      createdAt: 'desc',
+    }
+  }
+
+  let unanswered = req.query.sort === 'answer' && { commentsCount: 0 }
+
   try {
-    const page = req.query.page || 1
-    const count = await prisma.post.count()
-    const search = req.query.search || ''
     const posts = await prisma.post.findMany({
       where: {
         title: {
           contains: search,
           mode: 'insensitive',
         },
+        ...unanswered,
       },
-      orderBy: {
-        title: 'asc',
-      },
+      orderBy: orderByClause,
       include: {
         author: {
           select: {
@@ -39,7 +55,6 @@ export const getPosts = async (req, res, next) => {
             },
           },
         },
-        view: true,
       },
       // skip: (page - 1) * 10,
       // take: 10,
@@ -89,7 +104,6 @@ export const getDetailPost = async (req, res, next) => {
             },
           },
         },
-        view: true,
       },
     })
 
@@ -97,25 +111,16 @@ export const getDetailPost = async (req, res, next) => {
       return res.status(404).json({ message: 'Post not found' })
     }
 
-    if (!post.view) {
-      // If the post doesn't have a View record yet, create one
-      await prisma.view.create({
-        data: {
-          postId: post.id,
-          count: 1,
+    await prisma.post.update({
+      where: {
+        id: post.id,
+      },
+      data: {
+        viewCount: {
+          increment: 1,
         },
-      })
-    } else {
-      // If the post already has a View record, increment the count
-      await prisma.view.update({
-        where: { id: post.view.id },
-        data: {
-          count: {
-            increment: 1,
-          },
-        },
-      })
-    }
+      },
+    })
 
     res.json({
       message: 'Berhasil mendapatkan data',
@@ -144,12 +149,14 @@ export const deletePost = async (req, res, next) => {
 
   try {
     const deletedPost = await prisma.post.delete({ where: { id } })
+    console.log(deletedPost)
 
     res.json({
       message: 'Berhasil menghapus data',
       data: deletedPost,
     })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 }
@@ -167,11 +174,6 @@ export const createPost = async (req, res, next) => {
         author: {
           connect: {
             id: req.user.id,
-          },
-        },
-        view: {
-          create: {
-            count: 0,
           },
         },
       },
@@ -242,6 +244,17 @@ export const commentPost = async (req, res, next) => {
       },
     })
 
+    await prisma.post.update({
+      where: {
+        id,
+      },
+      data: {
+        commentsCount: {
+          increment: 1,
+        },
+      },
+    })
+
     res.json({
       message: 'Berhasil menambahkan komentar',
       data: comment,
@@ -303,6 +316,17 @@ export const deleteComment = async (req, res, next) => {
 
   try {
     const deletedComment = await prisma.comment.delete({ where: { id } })
+    //decrement comment count
+    await prisma.post.update({
+      where: {
+        id: comment.postId,
+      },
+      data: {
+        commentsCount: {
+          decrement: 1,
+        },
+      },
+    })
 
     res.json({
       message: 'Berhasil menghapus komentar',

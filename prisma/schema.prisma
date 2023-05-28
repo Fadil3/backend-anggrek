@@ -103,11 +103,9 @@ model Post {
   published Boolean   @default(false)
   author    User      @relation(fields: [authorId], references: [id])
   authorId  String
-  comments  Comment[]
-    view View?
-  // category   PostCategory @relation(fields: [categoryId], references: [id])
-  // categoryId String
-  // Views     Views[]
+  comments  Comment[] 
+  viewCount Int       @default(0)
+  commentsCount Int       @default(0)
 }
 
 model Comment {
@@ -117,7 +115,7 @@ model Comment {
   content   String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String
 }
 
@@ -142,7 +140,7 @@ model Article {
   authorId    String
   categories  categoryOnArticle[]
   infographic Infographic[]
-    view View?
+  viewCount   Int                 @default(0)
 }
 
 model Infographic {
@@ -181,15 +179,6 @@ model imageUpload {
   path      String
 }
 
-model View {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  count     Int      @default(1)
-  postId    String?  @unique
-  post      Post?    @relation(fields: [postId], references: [id])
-  articleId String?  @unique
-  article   Article? @relation(fields: [articleId], references: [id])
-}
 
 // model Likes {
 //   id        String   @id @default(uuid())

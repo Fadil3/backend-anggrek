@@ -67,7 +67,6 @@ export const getDetailArticle = async (req, res, next) => {
             },
           },
         },
-        view: true,
         infographic: true,
       },
     })
@@ -81,25 +80,16 @@ export const getDetailArticle = async (req, res, next) => {
       )
     }
 
-    if (!article.view) {
-      // If the article doesn't have a View record yet, create one
-      await prisma.view.create({
-        data: {
-          articleId: article.id,
-          count: 1,
+    await prisma.article.update({
+      where: {
+        id: article.id,
+      },
+      data: {
+        viewCount: {
+          increment: 1,
         },
-      })
-    } else {
-      // If the post already has a View record, increment the count
-      await prisma.view.update({
-        where: { id: article.view.id },
-        data: {
-          count: {
-            increment: 1,
-          },
-        },
-      })
-    }
+      },
+    })
 
     res.json({
       message: 'Berhasil mendapatkan artikel',
@@ -134,11 +124,6 @@ export const createArticle = async (req, res, next) => {
             data: JSON.parse(category).map((cat) => ({
               categoryId: cat,
             })),
-          },
-        },
-        view: {
-          create: {
-            count: 0,
           },
         },
       },
