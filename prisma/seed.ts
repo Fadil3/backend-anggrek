@@ -186,6 +186,66 @@ async function main() {
     },
   })
 
+  const artikel_siram = await prisma.article.create({
+    data: {
+      title: 'Panduan Menyiram Anggrek',
+      content: `# Panduan Menyiram Anggrek
+
+Anggrek adalah tanaman hias yang populer karena keindahan dan keunikan bunganya. Untuk menjaga anggrek tetap sehat dan berbunga indah, salah satu hal penting yang perlu dilakukan adalah menyiram anggrek dengan benar. Overwatering (terlalu banyak menyiram air pada tanaman) dan Underwatering (terlalu sedikit menyiram air pada tanaman) merupakan penyebab utama anggrek mati.
+
+Menyiram anggrek secara tepat dapat membantu menjaga tingkat kelembaban yang tepat, mencegah akar dari kelebihan air, dan memberikan nutrisi yang diperlukan. Berikut ini adalah panduan tentang cara menyiram anggrek dengan benar.
+
+## Waktu penyiraman
+Lakukan penyiraman pada pagi hari dan sore hari jika diperlukan. Hindari menyiram tanaman pada siang hari dan malam hari karena :
+- Penyiraman siang hari dapat membuat tanaman menjadi terbakar.
+- Penyiraman pada malam hari dapat membuat tanaman menjadi busuk karena air tidak menguap.
+
+ Untuk mempermudah penyiraman, gunakan alat bantu seperti :
+- Gembor
+- Sprayer
+- Mister
+
+Siram sampai air keluar dari bawah pot. ![https://api.anggrekpedia.my.id//uploads/articles/siram.png](siram.png)
+
+
+## Kapan Harus Disiram ?
+Secara umum, tanaman perlu disiram saat kondisinya **kering**. Berikut ini merupakan cara untuk memastikan apakah tanaman dalam kondisi kering. 
+
+- Kering saat disentuh
+- Berat pot terasa lebih ringan dibanding pot yang baru disiram.
+- Media tanam terlihat kering.
+
+![https://api.anggrekpedia.my.id//uploads/articles/waktu-siram.png](waktu-siram.png)
+
+## Jenis Pot Anggrek
+Perbedaan jenis pot yang dipakai juga dapat mempengaruhi intensitas penyiraman. Penguapan air lebih cepat terjadi pada pot tanah liat karena dinding pot bersifat porous. Pot plastik bisa menahan kelembapan tanah lebih lama.
+![https://api.anggrekpedia.my.id//uploads/articles/jenis-pot.png](jenis-pot.png)
+`,
+      published: true,
+      slug: await createUniqueSlugArticle('Panduan Menyiram Anggrek'),
+      description:
+        'Anggrek adalah tanaman hias yang populer karena keindahan dan keunikan bunganya. Untuk menjaga anggrek tetap sehat dan berbunga indah, salah satu hal penting yang perlu dilakukan adalah menyiram anggrek dengan benar.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+
+  const infographic_siram = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/panduan_menyiram.png',
+      articleId: artikel_siram.id,
+    },
+  })
+
   const phalAmbon = await prisma.anggrek.create({
     data: {
       name: 'Phalaenopsis amboinensis',
