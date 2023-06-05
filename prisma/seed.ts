@@ -205,7 +205,7 @@ Lakukan penyiraman pada pagi hari dan sore hari jika diperlukan. Hindari menyira
 - Sprayer
 - Mister
 
-Siram sampai air keluar dari bawah pot. ![https://api.anggrekpedia.my.id//uploads/articles/siram.png](siram.png)
+Siram sampai air keluar dari bawah pot. ![siram](https://api.anggrekpedia.my.id//uploads/articles/siram.png)
 
 
 ## Kapan Harus Disiram ?
@@ -215,11 +215,15 @@ Secara umum, tanaman perlu disiram saat kondisinya **kering**. Berikut ini merup
 - Berat pot terasa lebih ringan dibanding pot yang baru disiram.
 - Media tanam terlihat kering.
 
-![https://api.anggrekpedia.my.id//uploads/articles/waktu-siram.png](waktu-siram.png)
+![waktu siram](https://api.anggrekpedia.my.id//uploads/articles/waktu-siram.png)
 
 ## Jenis Pot Anggrek
 Perbedaan jenis pot yang dipakai juga dapat mempengaruhi intensitas penyiraman. Penguapan air lebih cepat terjadi pada pot tanah liat karena dinding pot bersifat porous. Pot plastik bisa menahan kelembapan tanah lebih lama.
-![https://api.anggrekpedia.my.id//uploads/articles/jenis-pot.png](jenis-pot.png)
+![jenis pot](https://api.anggrekpedia.my.id//uploads/articles/jenis-pot.png)
+
+Referensi 
+- Frowine, S. A., & National Gardening Association. (2022). Orchids for Dummies. John Wiley & Sons.
+- Direktorat Buah dan Florikultura, Kementrian Pertanian. (2020). Standar Operasional Prosedur Anggrek (Seri Dendrobium).
 `,
       published: true,
       slug: await createUniqueSlugArticle('Panduan Menyiram Anggrek'),
