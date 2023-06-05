@@ -250,6 +250,63 @@ Referensi
     },
   })
 
+  const artikel_fakta = await prisma.article.create({
+    data: {
+      title: 'Lima Fakta Menarik Tentang Anggrek',
+      content: `# Lima Fakta Menarik Tentang Anggrek
+Anggrek adalah tumbuhan eksotis yang telah mempesona banyak orang dengan kecantikan dan keunikan mereka. Berikut ini merupakan fakta menarik tentang anggrek yang mungkin belum kamu ketahui.
+
+## 25.000 Spesies !
+Anggrek adalah salah satu kelompok tumbuhan berbunga yang sangat terkenal dan populer di seluruh dunia. Mereka termasuk dalam famili *Orchidaceae*, yang terdiri dari 25.000 spesies yang berbeda.  Jumlah ini melebihi spesies mamalia(6.400) dan burung(10.000).
+![anggrek](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek1.png)
+
+## Ukuran Biji
+Biji anggrek berukuran sangat kecil (0.05 to 6.0 mm), ringan, dan jumlah nya sangat banyak yaitu 1.500 sampai 3.000.000 biji.
+![biji](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek2.png)
+
+## Bukan Parasit
+Anggrek yang hidup dengan menempel di pohon lain (epifit) tidak menyerap nutrisi dari pohon yang ditumpangi nya, tetapi menggunakan akar untuk menyerap air dan nutrisi dari udara dan air yang melewati akar. 
+![epifit](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek3.png)
+
+## Tumbuh di 6 Benua
+Anggrek dapat ditemukan di setiap benua kecuali **Antartika**. Oleh karena itu, anggrek mempunyai keragaman yang luas dalam warna, bentuk, ukuran, habitat, dan aroma
+![peta](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek4.png)
+
+## Vanila Berasal dari Anggrek
+Rasa vanila berasal dari tanaman  Vanili (Vanilla planifolia) yang merupakan anggrek dari genus vanila. Vanilla planifolia berasal dari Meksiko dan Amerika Tengah. Rasa ini banyak kita temukan di makanan atau minuman.
+![Vanilla](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek5.png)
+
+**Referensi**
+- Rittershausen, S. (2019). Happy orchid: Help it flower, watch it flourish. Penguin.
+Kebun Raya Banua. (2021, November 25). Vanilla, Si anggrek perisa makanan. https://kebunrayabanua.kalselprov.go.id/web/?p=5356
+Dressler, R. L. (2005). How many orchid species?. Selbyana, 155-158.
+- Arditti, J., & Ghani, A. K. A. (2000). Tansley Review No. 110. Numerical and physical properties of orchid seeds and their biological implications. The New Phytologist, 145(3), 367-421.
+`,
+      published: true,
+      slug: await createUniqueSlugArticle('Lima Fakta Menarik Tentang Anggrek'),
+      description:
+        'Anggrek adalah tumbuhan eksotis yang telah mempesona banyak orang dengan kecantikan dan keunikan mereka. Berikut ini merupakan fakta menarik tentang anggrek yang mungkin belum kamu ketahui.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+
+  const infographic_fakta = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/fakta_anggrek.png',
+      articleId: artikel_fakta.id,
+    },
+  })
+
   const phalAmbon = await prisma.anggrek.create({
     data: {
       name: 'Phalaenopsis amboinensis',
