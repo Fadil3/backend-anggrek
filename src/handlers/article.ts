@@ -9,10 +9,27 @@ export const getArticles = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
   const search = req.query.search || ''
   const categorySearch = req.query.category || ''
+  const infographic = req.query.infographic || false
   let whereClause = {}
+  let infographicClause = {
+    infographic: {
+      some: {
+        path: {
+          not: '',
+        },
+      },
+    },
+  }
   if (published) {
     whereClause = {
       published: published === 'true' ? true : false,
+    }
+  }
+  if (infographic) {
+    // merge where clause
+    whereClause = {
+      ...whereClause,
+      ...infographicClause,
     }
   }
   const count =
@@ -73,13 +90,28 @@ export const getArticles = async (req, res, next) => {
             },
           },
         },
+        infographic: true,
       },
       skip: (page - 1) * per_page,
       take: per_page,
     })
     res.json({
       message: 'Berhasil mendapatkan artikel',
-      data: article,
+      data: article.map((item) => {
+        // serve image infographic if exist
+        if (item.infographic.length > 0) {
+          item.infographic[0].path = serveImage(
+            config.protocol,
+            config.baseUrl,
+            item.infographic[0].path
+          )
+          return {
+            ...item,
+            infographic: item.infographic[0],
+          }
+        }
+        return item
+      }),
       meta: {
         current_page: page,
         per_page: per_page,
