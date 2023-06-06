@@ -367,7 +367,7 @@ Sabut kelapa adalah serat alami yang berasal dari lapisan serat keras yang melin
 **Kekurangan** :
 - Harga relatif mahal
 
-![sabut_kelapa](https://api.anggrekpedia.my.id//uploads/articles/sabut_kelapa.png)
+![moss](https://api.anggrekpedia.my.id//uploads/articles/moss.png)
 
 
 
