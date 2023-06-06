@@ -307,6 +307,106 @@ Dressler, R. L. (2005). How many orchid species?. Selbyana, 155-158.
     },
   })
 
+  const artikel_metan = await prisma.article.create({
+    data: {
+      title: 'Kekurangan dan Kelebihan Media Tanam Anggrek',
+      content: `# Kekurangan dan Kelebihan Media Tanam Anggrek
+Media tanam merupakan salah satu aspek yang penting dalam pertumbuhan anggrek. Media tanam yang ideal harus memiliki sifat porus, mudah menyerap air, tahan terhadap lapuk, memiliki tingkat keasaman yang stabil, tidak rentan terhadap pertumbuhan jamur dan bakteri, serta bebas dari tumbuhan lain. Berikut ini merupakan kelebihan dan kekurangan media tanam.
+
+## Arang
+Arang adalah bahan organik yang telah mengalami proses karbonisasi, di mana bahan tersebut dipanaskan pada suhu tinggi dengan sedikit atau tanpa oksigen. Proses ini menghasilkan material yang sangat porus dan kaya akan karbon. Arang ini kemudian dapat digunakan sebagai media tanam yang efektif dan ramah lingkungan.
+
+ **Kelebihan** : 
+- Menyerap kontaminasi.
+- Tidak mudah lapuk.
+- Tidak mudah ditumbuhi jamur
+
+**Kekurangan** :
+- Sukar mengikat air.
+- Miskin unsur hara.
+
+![arang](https://api.anggrekpedia.my.id//uploads/articles/arang.png)
+
+## Pecahan Bata / Pecahan Genteng
+Pecahan bata merupakan salah satu jenis media tanam alternatif yang dapat digunakan untuk menumbuhkan tanaman. Pecahan bata biasanya berasal dari bata pecah atau bata yang tidak sempurna, sehingga memberikan alternatif penggunaan yang kreatif dan ramah lingkungan.
+
+ **Kelebihan** : 
+- Drainase dan aerasi baik.
+- Dapat menyerap air.
+- Mudah melepas air.
+
+**Kekurangan** :
+- Mudah ditumbuhi lumut.
+- Miskin unsur hara.
+
+![bata](https://api.anggrekpedia.my.id//uploads/articles/bata.png)
+
+## Sabut Kelapa
+Sabut kelapa adalah serat alami yang berasal dari lapisan serat keras yang melindungi biji kelapa. Sabut kelapa terdiri dari serat-serat panjang yang kuat dan tangguh, yang memberikan struktur padat namun ringan pada bahan ini. Sabut kelapa dapat dijadikan salah satu media tanam anggrek. Sebelum digunakan sebagai media tanam, pastikan sabut kelapa telah diolah terlebih dahulu untuk menghiangkan zat tanin yang terkandung.
+
+ **Kelebihan** : 
+- Mengandung unsur hara.
+- Dapat menyimpan air dengan baik.
+
+**Kekurangan** :
+- Mudah lapuk dan terserang jamur.
+- Mudah menjadi sumber penyakit.
+- Mengandung zat tanin yang dapat menghambat pertumbuhan tanaman.
+
+![sabut_kelapa](https://api.anggrekpedia.my.id//uploads/articles/sabut_kelapa.png)
+
+
+## *Sphagnum Moss*
+*Sphagnum moss*, juga dikenal sebagai lumut Sphagnum, adalah jenis lumut yang sering digunakan sebagai media tanam dalam berbagai aplikasi. Ini adalah lumut yang hidup di daerah rawa-rawa dan lahan basah, dan memiliki sifat-sifat unik yang membuatnya menjadi media tanam yang populer. *Sphagnum moss* yang digunakan sebagai media tanam umumnya disediakan dalam keadaan kering.
+
+ **Kelebihan** : 
+- Mengandung unsur hara.
+- Mudah menyerap air.
+- Tidak mudah mengalami pembusukan.
+
+**Kekurangan** :
+- Harga relatif mahal
+
+![sabut_kelapa](https://api.anggrekpedia.my.id//uploads/articles/sabut_kelapa.png)
+
+
+
+
+Media tanam diatas dapat dicampur dengan media tanam lainnya. Kombinasi ini tergantung pada kebutuhan tanaman yang ingin ditanam dan kondisi tumbuh yang diinginkan.
+
+**Referensi**
+- Binawati, D. K. B. K. (2012). Pengaruh Media Tanam Terhadap Pertumbuhan Anggrek Bulan (Phalaenopsis sp.) Aklimatisasi Dalam Plenty. Wahana, 58(1), 60-68.
+- Andriyani, A. (2018). Membuat Tanaman Anggrek Rajin Berbunga. AgroMedia.
+- Frowine, S. A., & National Gardening Association. (2022). Orchids for Dummies. John Wiley & Sons.
+- Direktorat Buah dan Florikultura, Kementrian Pertanian. (2020). Standar Operasional Prosedur Anggrek (Seri Dendrobium).
+`,
+      published: true,
+      slug: await createUniqueSlugArticle(
+        'Kekurangan dan Kelebihan Media Tanam Anggrek'
+      ),
+      description:
+        'Media tanam merupakan salah satu aspek yang penting dalam pertumbuhan anggrek. Media tanam yang ideal harus memiliki sifat porus, mudah menyerap air, tahan terhadap lapuk, memiliki tingkat keasaman yang stabil, tidak rentan terhadap pertumbuhan jamur dan bakteri, serta bebas dari tumbuhan lain. Berikut ini merupakan kelebihan dan kekurangan media tanam.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+
+  const infographic_metan = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/media_tanam.png',
+      articleId: artikel_metan.id,
+    },
+  })
+
   const phalAmbon = await prisma.anggrek.create({
     data: {
       name: 'Phalaenopsis amboinensis',
