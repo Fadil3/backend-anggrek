@@ -479,13 +479,6 @@ Umumnya vanda sumatra ini tumbuh baik di dataran rendah. Bunganya memiliki kehar
         'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
       link: '-',
     },
-    {
-      path: `/public/uploads/anggrek/vanda_sumatrana1.jpg`,
-      anggrekId: vandaSumatra.id,
-      caption:
-        'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
-      link: '-',
-    },
   ]
 
   const insertVandaSumatrana = await Promise.all([
@@ -529,6 +522,264 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
 
   const insertCbdHarti = await Promise.all([
     fotoCbdHarti.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const phal_amabilis = await prisma.anggrek.create({
+    data: {
+      name: `Phalaenopsis amabilis (L.) Blume`,
+      genus: 'phalaenopsis',
+      description: ``,
+      localName: 'Anggrek Bulan',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const fotoPhal_amabilis = [
+    {
+      path: `/public/uploads/anggrek/phal_amabilis2.jpg`,
+      anggrekId: phal_amabilis.id,
+      caption: `Phalaenopsis amabilis (L.) Blume observed in Indonesia by Ganjar Cahyadi (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/172528282',
+    },
+    {
+      path: `/public/uploads/anggrek/phal_amabilis.jpg`,
+      anggrekId: phal_amabilis.id,
+      caption: `Phalaenopsis amabilis (L.) Blume observed in Indonesia by mistysea (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/277609269',
+    },
+  ]
+
+  const insertPhal_amabilis = await Promise.all([
+    fotoPhal_amabilis.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const merpati = await prisma.anggrek.create({
+    data: {
+      name: `Dendrobium crumenatum`,
+      genus: 'dendrobium',
+      description: ``,
+      localName: 'Anggrek Merpati',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const fotomerpati = [
+    {
+      path: `/public/uploads/anggrek/merpati.jpeg`,
+      anggrekId: merpati.id,
+      caption: `Dendrobium crumenatum observed in Singapore by CheongWeei Gan (licensed under https://creativecommons.org/licenses/by/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/166407049',
+    },
+    {
+      path: `/public/uploads/anggrek/merpati2.jpg`,
+      anggrekId: merpati.id,
+      caption: `Dendrobium crumenatum observed in Singapore by budak (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/17836022',
+    },
+  ]
+
+  const insert_merpati = await Promise.all([
+    fotomerpati.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const den_anosmum = await prisma.anggrek.create({
+    data: {
+      name: `Dendrobium anosmum`,
+      genus: 'dendrobium',
+      description: ``,
+      localName: '',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const foto_denAnosmum = [
+    {
+      path: `/public/uploads/anggrek/anosmum.jpg`,
+      anggrekId: den_anosmum.id,
+      caption: `Dendrobium anosmum observed in Philipines by Linda Alisto (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/263027020',
+    },
+    {
+      path: `/public/uploads/anggrek/anosmum2.jpeg`,
+      anggrekId: den_anosmum.id,
+      caption: `Dendrobium anosmum observed in Philipines by anncabras24 (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/60422265',
+    },
+  ]
+
+  const insert_Anosmum = await Promise.all([
+    foto_denAnosmum.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const vanda3 = await prisma.anggrek.create({
+    data: {
+      name: `Vanda tricolor`,
+      genus: 'vanda',
+      description: ``,
+      localName: '',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const foto_vanda3 = [
+    {
+      path: `/public/uploads/anggrek/vanda3.jpg`,
+      anggrekId: vanda3.id,
+      caption: `Vanda tricolor observed in Colombia by Ana Maria Lora (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/285948439',
+    },
+    {
+      path: `/public/uploads/anggrek/vanda32.jpeg`,
+      anggrekId: vanda3.id,
+      caption: `Vanda tricolor observed in Indonesia by Fadhya Azhi Shafitry (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/236479445',
+    },
+  ]
+
+  const insert_foto_vanda3 = await Promise.all([
+    foto_vanda3.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const modesta = await prisma.anggrek.create({
+    data: {
+      name: `Phalaenopsis modesta`,
+      genus: 'phalaenopsis',
+      description: ``,
+      localName: '',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const foto_modesta = [
+    {
+      path: `/public/uploads/anggrek/modesta.jpeg`,
+      anggrekId: modesta.id,
+      caption: `Phalaenopsis modesta observed in Malaysia by Albert Kang (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/177540655',
+    },
+    {
+      path: `/public/uploads/anggrek/modesta2.jpg`,
+      anggrekId: modesta.id,
+      caption: `Phalaenopsis modesta observed in Malaysia by R E Gray (licensed under http://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/250695403',
+    },
+  ]
+
+  const insert_foto_modesta = await Promise.all([
+    foto_modesta.map(async (data) => {
+      return prisma.anggrekPhoto.create({
+        data,
+      })
+    }),
+  ])
+
+  const schlr = await prisma.anggrek.create({
+    data: {
+      name: `Phalaenopsis schilleriana`,
+      genus: 'phalaenopsis',
+      description: ``,
+      localName: '',
+      degree: '',
+      light: '',
+      humidity: '',
+      references: '',
+      isApproved: true,
+      contributor: {
+        create: {
+          userId: fadil.id,
+        },
+      },
+    },
+  })
+
+  const foto_schlr = [
+    {
+      path: `/public/uploads/anggrek/schlr.jpg`,
+      anggrekId: schlr.id,
+      caption: `Phalaenopsis schilleriana observed by Brian Gratwicke (licensed under https://creativecommons.org/licenses/by-nc/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/149339913',
+    },
+    {
+      path: `/public/uploads/anggrek/schlr2.jpg`,
+      anggrekId: schlr.id,
+      caption: `Phalaenopsis schilleriana observed  by Maja Dumat (licensed under https://creativecommons.org/licenses/by/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/60892229',
+    },
+    {
+      path: `/public/uploads/anggrek/schlr3.jpg`,
+      anggrekId: schlr.id,
+      caption: `Phalaenopsis schilleriana observed in Philipines by Greg III Espera (licensed under https://creativecommons.org/licenses/by/4.0/)`,
+      link: 'https://www.inaturalist.org/photos/16716087',
+    },
+  ]
+
+  const insert_foto_schlr = await Promise.all([
+    foto_schlr.map(async (data) => {
       return prisma.anggrekPhoto.create({
         data,
       })
