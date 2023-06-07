@@ -61,6 +61,7 @@ model Anggrek {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   name        String          @db.VarChar(255)
+  genus       String          @default("")
   localName   String          @default("")
   description String          @default("")
   degree      String          @default("")

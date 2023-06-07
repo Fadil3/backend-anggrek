@@ -10,14 +10,23 @@ export const createAnggrek = async (req, res, next) => {
   }
 
   // destructuring req.body
-  const { name, description, references, localName, degree, light, humidity } =
-    req.body
+  const {
+    name,
+    description,
+    references,
+    localName,
+    degree,
+    light,
+    humidity,
+    genus,
+  } = req.body
 
   // insert anggrek and photo
   try {
     const anggrek = await prisma.anggrek.create({
       data: {
         name,
+        genus,
         description,
         localName: localName || '',
         degree,
@@ -77,8 +86,16 @@ export const updateAnggrek = async (req, res, next) => {
   }
 
   // destructuring req.body
-  const { name, description, references, localName, degree, light, humidity } =
-    req.body
+  const {
+    name,
+    description,
+    references,
+    localName,
+    degree,
+    light,
+    humidity,
+    genus,
+  } = req.body
 
   try {
     const updated = await prisma.anggrek.update({
@@ -87,6 +104,7 @@ export const updateAnggrek = async (req, res, next) => {
       },
       data: {
         name,
+        genus,
         description,
         localName: localName || '',
         degree,
@@ -135,9 +153,7 @@ export const getAnggrek = async (req, res, next) => {
       },
       skip: (page - 1) * per_page,
       take: per_page,
-      select: {
-        id: true,
-        name: true,
+      include: {
         photos: {
           select: {
             id: true,
@@ -147,15 +163,40 @@ export const getAnggrek = async (req, res, next) => {
           },
         },
         contributor: {
-          include: {
+          select: {
             user: {
               select: {
                 name: true,
               },
             },
           },
+          distinct: ['userId'],
         },
       },
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   photos: {
+      //     select: {
+      //       id: true,
+      //       path: true,
+      //       caption: true,
+      //       link: true,
+      //     },
+      //   },
+      //   description: true,
+      //   localName: true,
+
+      //   contributor: {
+      //     include: {
+      //       user: {
+      //         select: {
+      //           name: true,
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
     })
 
     // serve path
@@ -267,6 +308,8 @@ export const uploadImageAnggrek = async (req, res, next) => {
   try {
     const anggrekPhoto = await prisma.anggrekPhoto.create({
       data: {
+        caption: req.body.caption,
+        link: req.body.link,
         anggrek: { connect: { id: req.params.id } },
         path: '/public/uploads/anggrek/' + req.file.filename,
       },
