@@ -43,6 +43,8 @@ model Glosarium {
   name        String            @db.VarChar(255)
   description String
   contributor UserOnGlosarium[]
+  isApproved  Boolean           @default(false)
+  proposeTo   String?          @default("")
 }
 
 model UserOnGlosarium {

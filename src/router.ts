@@ -24,6 +24,9 @@ import {
   createGlosarium,
   updateGlosarium,
   deleteGlosarium,
+  approveGlosarium,
+  approveProposedGlosarium,
+  proposedGlosarium,
 } from './handlers/glosarium'
 
 import {
@@ -168,6 +171,10 @@ router.put(
 )
 
 router.delete('/glosarium/:id', protect, deleteGlosarium)
+
+router.get('/glosarium_proposed', proposedGlosarium)
+router.post('/glosarium/:id/approve_new', protect, approveGlosarium)
+router.post('/glosarium/:id/approve_edit', protect, approveProposedGlosarium)
 
 /**
  * Forum

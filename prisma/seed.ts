@@ -69,7 +69,7 @@ async function main() {
   const glosariumWithContributors = await Promise.all(
     glosariumData.map(async (data) => {
       const glosarium = await prisma.glosarium.create({
-        data: data,
+        data: { ...data, isApproved: true },
       })
 
       return prisma.user.update({
