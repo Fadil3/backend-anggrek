@@ -40,6 +40,7 @@ export const getGlosarium = async (req, res, next) => {
         isApproved: true,
         name: true,
         description: true,
+        proposeTo: true,
         contributor: {
           select: {
             user: {
@@ -94,6 +95,7 @@ export const getOneGlosarium = async (req, res, next) => {
         id: true,
         name: true,
         description: true,
+        proposeTo: true,
         contributor: {
           select: {
             user: {
@@ -206,6 +208,7 @@ export const proposedGlosarium = async (req, res, next) => {
         isApproved: true,
         name: true,
         description: true,
+        proposeTo: true,
         contributor: {
           select: {
             user: {
