@@ -161,6 +161,9 @@ export const getAnggrek = async (req, res, next) => {
             caption: true,
             link: true,
           },
+          orderBy: {
+            path: 'asc',
+          },
         },
         contributor: {
           select: {
