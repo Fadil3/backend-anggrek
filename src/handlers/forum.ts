@@ -5,16 +5,27 @@ import { createUniqueSlugPost } from '../modules/slug'
 export const getPosts = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
   const search = req.query.search || ''
-  const count = search
-    ? await prisma.post.count({
-        where: {
-          title: {
-            contains: search,
-            mode: 'insensitive',
+  const categorySearch = req.query.category || ''
+  const count =
+    search || categorySearch
+      ? await prisma.post.count({
+          where: {
+            categories: {
+              some: {
+                category: {
+                  id: {
+                    contains: categorySearch,
+                  },
+                },
+              },
+            },
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
           },
-        },
-      })
-    : await prisma.post.count()
+        })
+      : await prisma.post.count()
   const sortAttribute = req.query.sort || ''
   const per_page = parseInt(req.query.per_page) || 5
 
@@ -36,6 +47,15 @@ export const getPosts = async (req, res, next) => {
   try {
     const posts = await prisma.post.findMany({
       where: {
+        categories: {
+          some: {
+            category: {
+              id: {
+                contains: categorySearch,
+              },
+            },
+          },
+        },
         title: {
           contains: search,
           mode: 'insensitive',
@@ -49,6 +69,16 @@ export const getPosts = async (req, res, next) => {
             name: true,
             id: true,
             image_profile: true,
+          },
+        },
+        categories: {
+          select: {
+            category: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
           },
         },
         comments: {
@@ -88,6 +118,8 @@ export const getPosts = async (req, res, next) => {
 export const getDetailPost = async (req, res, next) => {
   try {
     const { slug } = req.params
+    const track = req.query.track || true
+    // console.log(track)
     const post = await prisma.post.findFirst({
       where: {
         slug,
@@ -98,6 +130,16 @@ export const getDetailPost = async (req, res, next) => {
             name: true,
             id: true,
             image_profile: true,
+          },
+        },
+        categories: {
+          select: {
+            category: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
           },
         },
         comments: {
@@ -121,16 +163,19 @@ export const getDetailPost = async (req, res, next) => {
       return res.status(404).json({ message: 'Post not found' })
     }
 
-    await prisma.post.update({
-      where: {
-        id: post.id,
-      },
-      data: {
-        viewCount: {
-          increment: 1,
+    if (track) {
+      console.log('track', track)
+      await prisma.post.update({
+        where: {
+          id: post.id,
         },
-      },
-    })
+        data: {
+          viewCount: {
+            increment: 1,
+          },
+        },
+      })
+    }
 
     res.json({
       message: 'Berhasil mendapatkan data',
@@ -173,7 +218,7 @@ export const deletePost = async (req, res, next) => {
 
 export const createPost = async (req, res, next) => {
   try {
-    const { title, content } = req.body
+    const { title, content, category } = req.body
     const slug = await createUniqueSlugPost(title)
     const post = await prisma.post.create({
       data: {
@@ -184,6 +229,13 @@ export const createPost = async (req, res, next) => {
         author: {
           connect: {
             id: req.user.id,
+          },
+        },
+        categories: {
+          createMany: {
+            data: JSON.parse(category).map((cat) => ({
+              categoryId: cat,
+            })),
           },
         },
       },
@@ -213,7 +265,7 @@ export const updatePost = async (req, res, next) => {
   }
 
   try {
-    const { title, content } = req.body
+    const { title, content, category } = req.body
     const newSlug =
       post.title !== title ? await createUniqueSlugPost(title) : slug
     const updatedPost = await prisma.post.update({
@@ -221,6 +273,16 @@ export const updatePost = async (req, res, next) => {
       data: {
         title,
         slug: newSlug,
+        categories: {
+          deleteMany: {
+            postId: post.id,
+          },
+          createMany: {
+            data: JSON.parse(category).map((cat) => ({
+              categoryId: cat,
+            })),
+          },
+        },
         content,
       },
     })

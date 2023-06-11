@@ -99,6 +99,41 @@ async function main() {
     })
   )
 
+  const postCategoryData = [
+    {
+      name: 'Informasi Umum',
+    },
+    {
+      name: 'Cara Menanam',
+    },
+    {
+      name: 'Perawatan',
+    },
+    {
+      name: 'Pemupukan',
+    },
+    {
+      name: 'Penyakit',
+    },
+    {
+      name: 'Pengendalian Hama',
+    },
+    {
+      name: 'Media Tanam',
+    },
+    {
+      name: 'Lainnya',
+    },
+  ]
+
+  const insertPostCategoryData = await Promise.all([
+    postCategoryData.map(async (data) => {
+      return prisma.postCategory.create({
+        data,
+      })
+    }),
+  ])
+
   const articleCategoryData = [
     {
       name: 'Cara Menanam',

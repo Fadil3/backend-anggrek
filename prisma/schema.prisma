@@ -44,7 +44,7 @@ model Glosarium {
   description String
   contributor UserOnGlosarium[]
   isApproved  Boolean           @default(false)
-  proposeTo   String?          @default("")
+  proposeTo   String?           @default("")
 }
 
 model UserOnGlosarium {
@@ -97,18 +97,19 @@ model AnggrekPhoto {
 }
 
 model Post {
-  id        String    @id @default(uuid())
-  slug        String              @default("") @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  title     String
-  content   String    @db.Text
-  published Boolean   @default(false)
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String
-  comments  Comment[] 
-  viewCount Int       @default(0)
-  commentsCount Int       @default(0)
+  id            String           @id @default(uuid())
+  slug          String           @unique @default("")
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  title         String
+  content       String           @db.Text
+  published     Boolean          @default(false)
+  author        User             @relation(fields: [authorId], references: [id])
+  authorId      String
+  comments      Comment[]
+  categories    categoryOnPost[]
+  viewCount     Int              @default(0)
+  commentsCount Int              @default(0)
 }
 
 model Comment {
@@ -122,17 +123,27 @@ model Comment {
   postId    String
 }
 
-// model PostCategory {
-//   id        String   @id @default(uuid())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   name      String
-//   posts     Post[]
-// }
+model PostCategory {
+  id        String           @id @default(uuid())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  name      String
+  posts     categoryOnPost[]
+}
+
+model categoryOnPost {
+  id         String       @id @default(uuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  post       Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     String
+  category   PostCategory @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
 
 model Article {
   id          String              @id @default(uuid())
-  slug        String              @default("") @unique
+  slug        String              @unique @default("")
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   title       String
@@ -155,8 +166,6 @@ model Infographic {
   articleId String
 }
 
-
-
 model ArticleCategory {
   id        String              @id @default(uuid())
   createdAt DateTime            @default(now())
@@ -169,7 +178,7 @@ model categoryOnArticle {
   id         String          @id @default(uuid())
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
-  article    Article         @relation(fields: [articleId], references: [id],onDelete: Cascade)
+  article    Article         @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId  String
   category   ArticleCategory @relation(fields: [categoryId], references: [id])
   categoryId String
@@ -181,7 +190,6 @@ model imageUpload {
   updatedAt DateTime @updatedAt
   path      String
 }
-
 
 // model Likes {
 //   id        String   @id @default(uuid())

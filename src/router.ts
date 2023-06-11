@@ -63,6 +63,13 @@ import {
   deleteArticleCategory,
 } from './handlers/articleCategory'
 
+import {
+  createPostCategory,
+  deletePostCategory,
+  getPostCategories,
+  updatePostCategory,
+} from './handlers/postCategory'
+
 import { multerUploadImage } from './modules/uploadImage'
 import { protect } from './modules/auth'
 import { handleInputError } from './modules/middleware'
@@ -195,6 +202,7 @@ router.post(
   protect,
   body('title').exists().isString().notEmpty().isLength({ min: 3 }),
   body('content').exists().isString().notEmpty().isLength({ min: 10 }),
+  body('category').exists().notEmpty(),
   handleInputError,
   createPost
 )
@@ -289,5 +297,22 @@ router.put(
   updateArticleCategory
 )
 router.delete('/article-categories/:id', protect, deleteArticleCategory)
+
+router.get('/post-categories', getPostCategories)
+router.post(
+  '/post-categories',
+  protect,
+  body('name').exists().isString().notEmpty().isLength({ min: 3 }),
+  handleInputError,
+  createPostCategory
+)
+router.put(
+  '/post-categories/:id',
+  protect,
+  body('name').exists().isString().notEmpty().isLength({ min: 3 }),
+  handleInputError,
+  updatePostCategory
+)
+router.delete('/post-categories/:id', protect, deletePostCategory)
 
 export default router
