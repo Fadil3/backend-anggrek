@@ -40,3 +40,20 @@ export const createUniqueSlugArticle = async (title) => {
 
   return slug
 }
+
+export const createUniqueSlugAnggrek = async (name) => {
+  let slug = createSlug(name)
+
+  const existingAnggrek = await prisma.anggrek.findFirst({
+    where: {
+      slug,
+    },
+  })
+
+  if (existingAnggrek) {
+    // If a post with the same slug already exists, append a unique identifier
+    slug = `${slug}-${uuidv4().substr(0, 8)}`
+  }
+
+  return slug
+}

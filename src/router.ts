@@ -116,13 +116,12 @@ router.put(
  * Anggrek
  */
 router.get('/anggrek', getAnggrek)
-router.get('/anggrek/:id', getOneAnggrek)
+router.get('/anggrek/:slug', getOneAnggrek)
 router.post(
   '/anggrek',
   protect,
   multerUploadImage('anggrek').array('foto_anggrek', 5),
   body('name').exists().isString().isLength({ min: 3 }),
-  body('localName').optional().isString().isLength({ min: 3 }),
   body('description').exists().isString().isLength({ min: 10 }),
   body('references').exists().isString().isLength({ min: 10 }),
   body('degree').exists().isString().isLength({ min: 3 }),

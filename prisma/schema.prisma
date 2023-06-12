@@ -60,6 +60,7 @@ model UserOnGlosarium {
 // anggrek
 model Anggrek {
   id          String          @id @default(uuid())
+  slug        String          @unique @default("")
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   name        String          @db.VarChar(255)

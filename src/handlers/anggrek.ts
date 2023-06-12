@@ -2,6 +2,7 @@ import config from '../config'
 import prisma from '../db'
 import { isAdmin } from '../modules/auth'
 import { serveImage } from '../modules/serve_image'
+import { createUniqueSlugAnggrek } from '../modules/slug'
 
 export const createAnggrek = async (req, res, next) => {
   // check if user is admin
@@ -26,6 +27,7 @@ export const createAnggrek = async (req, res, next) => {
     const anggrek = await prisma.anggrek.create({
       data: {
         name,
+        slug: await createUniqueSlugAnggrek(name),
         genus,
         description,
         localName: localName || '',
@@ -104,6 +106,7 @@ export const updateAnggrek = async (req, res, next) => {
       },
       data: {
         name,
+        slug: await createUniqueSlugAnggrek(req.body.name),
         genus,
         description,
         localName: localName || '',
@@ -176,30 +179,6 @@ export const getAnggrek = async (req, res, next) => {
           distinct: ['userId'],
         },
       },
-      // select: {
-      //   id: true,
-      //   name: true,
-      //   photos: {
-      //     select: {
-      //       id: true,
-      //       path: true,
-      //       caption: true,
-      //       link: true,
-      //     },
-      //   },
-      //   description: true,
-      //   localName: true,
-
-      //   contributor: {
-      //     include: {
-      //       user: {
-      //         select: {
-      //           name: true,
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
     })
 
     // serve path
@@ -234,11 +213,11 @@ export const getAnggrek = async (req, res, next) => {
 
 export const getOneAnggrek = async (req, res, next) => {
   try {
-    const id = req.params.id
+    const slug = req.params.slug
 
     const anggrek = await prisma.anggrek.findFirst({
       where: {
-        id,
+        slug,
         deletedAt: null,
         isApproved: true,
       },
