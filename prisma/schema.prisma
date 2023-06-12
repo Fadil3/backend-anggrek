@@ -72,6 +72,7 @@ model Anggrek {
   humidity    String          @default("")
   references  String
   isApproved  Boolean         @default(false)
+  proposeTo   String?         @default("")
   deletedAt   DateTime?
   photos      AnggrekPhoto[]
   contributor UserOnAnggrek[]
