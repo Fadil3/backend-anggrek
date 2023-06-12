@@ -322,11 +322,6 @@ export const approveProposedGlosarium = async (req, res, next) => {
 
 // Update one
 export const updateGlosarium = async (req, res, next) => {
-  // check if user is admin
-  // if ((await isAdmin(req.user)) === false) {
-  //   return res.status(401).json({ message: 'Unauthorized' })
-  // }
-
   try {
     // check if user is admin
     if (await isAdmin(req.user)) {
@@ -348,7 +343,6 @@ export const updateGlosarium = async (req, res, next) => {
       res.json({ message: 'Glosarium berhasil diupdate', data: updated })
     } else {
       // user propose update glosarium
-
       const glosarium = await prisma.glosarium.create({
         data: {
           name: req.body.name,

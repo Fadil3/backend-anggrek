@@ -17,6 +17,10 @@ import {
   deleteAnggrek,
   uploadImageAnggrek,
   deleteImageAnggrek,
+  getProposedAnggrek,
+  approveAnggrek,
+  approveProposedAnggrek,
+  getOneAnggrekById,
 } from './handlers/anggrek'
 import {
   getGlosarium,
@@ -117,6 +121,7 @@ router.put(
  */
 router.get('/anggrek', getAnggrek)
 router.get('/anggrek/:slug', getOneAnggrek)
+router.get('/anggrek_id/:id', getOneAnggrekById)
 router.post(
   '/anggrek',
   protect,
@@ -136,6 +141,7 @@ router.post(
 router.put(
   '/anggrek/:id',
   protect,
+  multerUploadImage('anggrek').array('foto_anggrek', 5),
   body('name').optional().isString().isLength({ min: 3 }),
   body('description').exists().isString().isLength({ min: 10 }),
   body('references').exists().isString().isLength({ min: 10 }),
@@ -150,6 +156,10 @@ router.post(
   uploadImageAnggrek
 )
 router.delete('/delete-image-anggrek/:id', protect, deleteImageAnggrek)
+
+router.get('/anggrek_proposed', getProposedAnggrek)
+router.post('/anggrek/:id/approve_new', protect, approveAnggrek)
+router.post('/anggrek/:id/approve_edit', protect, approveProposedAnggrek)
 
 /**
  * Glosarium
