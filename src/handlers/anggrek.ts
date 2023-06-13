@@ -267,12 +267,21 @@ export const approveProposedAnggrek = async (req, res, next) => {
     }
 
     // delete proposed anggrek
-    const deleted = await prisma.anggrek.delete({
+    const deleted = await prisma.anggrek.update({
       where: {
         id: proposed.id,
       },
+      data: {
+        deletedAt: new Date(),
+      },
     })
-  } catch {}
+
+    res.json({ message: 'Anggrek berhasil diapprove', data: updated })
+  } catch (error) {
+    error.type = 'notFound'
+    error.message = 'Anggrek'
+    next(error)
+  }
 }
 
 export const updateAnggrek = async (req, res, next) => {
