@@ -316,6 +316,20 @@ export const commentPost = async (req, res, next) => {
       },
     })
 
+    const post = await prisma.post.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        author: {
+          select: {
+            id: true,
+          },
+        },
+        slug: true,
+      },
+    })
+
     await prisma.post.update({
       where: {
         id,
@@ -324,6 +338,18 @@ export const commentPost = async (req, res, next) => {
         commentsCount: {
           increment: 1,
         },
+      },
+    })
+
+    const notifications = await prisma.notification.create({
+      data: {
+        message: `${req.user.name} mengomentari postingan anda`,
+        user: {
+          connect: {
+            id: post.author.id,
+          },
+        },
+        link: `/forum/${post.slug}`,
       },
     })
 

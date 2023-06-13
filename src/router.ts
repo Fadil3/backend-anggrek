@@ -8,6 +8,7 @@ import {
   editUserProfile,
   changePasswordUser,
   getUserContributions,
+  getNotification,
 } from './handlers/profile'
 import {
   getAnggrek,
@@ -115,6 +116,8 @@ router.put(
   handleInputError,
   changePasswordUser
 )
+
+router.get('/notifications/:id', getNotification)
 
 /**
  * Anggrek

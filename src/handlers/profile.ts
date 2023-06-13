@@ -23,6 +23,24 @@ export const getUserProfile = async (req, res) => {
   }
 }
 
+export const getNotification = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.params.id,
+      },
+      select: {
+        notifications: true,
+      },
+    })
+
+    res.json({ data: user })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
 export const getUserProfileById = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
