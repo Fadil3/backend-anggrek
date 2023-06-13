@@ -115,7 +115,7 @@ export const approveAnggrek = async (req, res, next) => {
     const notification = await prisma.notification.create({
       data: {
         message: `Pengajuan Anggrek ${anggrek.name} telah diterima.`,
-        link: `/anggrek`,
+        link: `/anggrek/${approve.slug}`,
         userId: anggrek.contributor[0].userId,
       },
     })
