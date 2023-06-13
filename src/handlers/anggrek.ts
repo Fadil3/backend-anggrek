@@ -89,7 +89,20 @@ export const approveAnggrek = async (req, res, next) => {
   }
 
   try {
-    const anggrek = await prisma.anggrek.update({
+    const anggrek = await prisma.anggrek.findFirst({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        contributor: {
+          select: {
+            userId: true,
+          },
+        },
+      },
+    })
+
+    const approve = await prisma.anggrek.update({
       where: {
         id: req.params.id,
       },
@@ -98,7 +111,16 @@ export const approveAnggrek = async (req, res, next) => {
       },
     })
 
-    res.json({ message: 'Anggrek berhasil diapprove', data: anggrek })
+    // notify user
+    const notification = await prisma.notification.create({
+      data: {
+        message: `Pengajuan Anggrek ${anggrek.name} telah diterima.`,
+        link: `/anggrek`,
+        userId: anggrek.contributor[0].userId,
+      },
+    })
+
+    res.json({ message: 'Anggrek berhasil diapprove', data: approve })
   } catch (error) {
     error.type = 'notFound'
     error.message = 'Anggrek'
@@ -213,7 +235,7 @@ export const approveProposedAnggrek = async (req, res, next) => {
         contributor: true,
       },
     })
-    console.log('proposed', proposed)
+
     const updated = await prisma.anggrek.update({
       where: {
         id: proposed.proposeTo,
@@ -265,6 +287,15 @@ export const approveProposedAnggrek = async (req, res, next) => {
         next(error)
       }
     }
+
+    // notify user
+    const notification = await prisma.notification.create({
+      data: {
+        message: `Pengajuan perubahan data Anggrek ${proposed.name} telah diterima.`,
+        link: `/anggrek/${updated.slug}`,
+        userId: proposed.contributor[0].userId,
+      },
+    })
 
     // delete proposed anggrek
     const deleted = await prisma.anggrek.update({

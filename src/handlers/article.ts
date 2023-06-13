@@ -291,7 +291,20 @@ export const publishArticle = async (req, res, next) => {
   }
 
   try {
-    const article = await prisma.article.update({
+    const article = await prisma.article.findFirst({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+
+    const approve = await prisma.article.update({
       where: {
         id: req.params.id,
       },
@@ -299,7 +312,17 @@ export const publishArticle = async (req, res, next) => {
         published: true,
       },
     })
-    res.json({ message: 'Berhasil mempublish artikel', data: article })
+
+    // notify user
+    const notification = await prisma.notification.create({
+      data: {
+        message: 'Artikel anda telah dipublish',
+        link: '/artikel/' + article.slug,
+        userId: article.author.id,
+      },
+    })
+
+    res.json({ message: 'Berhasil mempublish artikel', data: approve })
   } catch (error) {
     next(error)
   }
