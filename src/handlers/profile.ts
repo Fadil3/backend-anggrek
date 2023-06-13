@@ -30,11 +30,47 @@ export const getNotification = async (req, res) => {
         id: req.params.id,
       },
       select: {
-        notifications: true,
+        notifications: {
+          select: {
+            id: true,
+            message: true,
+            createdAt: true,
+            link: true,
+            isRead: true,
+            user: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+          },
+          take: 5,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       },
     })
 
     res.json({ data: user })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+export const readNotification = async (req, res) => {
+  try {
+    const user = await prisma.notification.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        isRead: true,
+      },
+    })
+
+    res.json({ message: 'Berhasil membaca notifikasi', data: user })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ message: 'Internal server error' })

@@ -153,12 +153,34 @@ export const approveGlosarium = async (req, res, next) => {
   }
 
   try {
+    const glosarium = await prisma.glosarium.findFirst({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        contributor: {
+          select: {
+            userId: true,
+          },
+        },
+      },
+    })
+
     const approve = await prisma.glosarium.update({
       where: {
         id: req.params.id,
       },
       data: {
         isApproved: true,
+      },
+    })
+
+    // notify user
+    const notification = await prisma.notification.create({
+      data: {
+        message: `Pengajuan Glosarium ${glosarium.name} telah diterima.`,
+        link: `/glosarium`,
+        userId: glosarium.contributor[0].userId,
       },
     })
 
@@ -270,7 +292,6 @@ export const approveProposedGlosarium = async (req, res, next) => {
         },
       },
     })
-    console.log('proposed', proposed)
 
     // update glosarium
     const updated = await prisma.glosarium.update({
@@ -288,7 +309,14 @@ export const approveProposedGlosarium = async (req, res, next) => {
       },
     })
 
-    console.log('updated', updated)
+    // notify user
+    const notification = await prisma.notification.create({
+      data: {
+        message: `Pengajuan Glosarium ${proposed.name} telah diterima.`,
+        link: `/glosarium`,
+        userId: proposed.contributor[0].userId,
+      },
+    })
 
     const deleted = await prisma.glosarium.update({
       where: {

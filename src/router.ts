@@ -9,6 +9,7 @@ import {
   changePasswordUser,
   getUserContributions,
   getNotification,
+  readNotification,
 } from './handlers/profile'
 import {
   getAnggrek,
@@ -118,6 +119,7 @@ router.put(
 )
 
 router.get('/notifications/:id', getNotification)
+router.post('/notifications/:id/read', protect, readNotification)
 
 /**
  * Anggrek
