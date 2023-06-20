@@ -434,3 +434,33 @@ export const deleteComment = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getLatestComment = async (req, res, next) => {
+  try {
+    const comment = await prisma.comment.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+      include: {
+        post: {
+          select: {
+            title: true,
+            slug: true,
+          },
+        },
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
+    res.json({
+      message: 'Berhasil mendapatkan komentar terbaru',
+      data: comment,
+    })
+  } catch (error) {
+    next(error)
+  }
+}

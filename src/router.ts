@@ -44,6 +44,7 @@ import {
   deletePost,
   deleteComment,
   updatePost,
+  getLatestComment,
 } from './handlers/forum'
 
 import {
@@ -229,6 +230,8 @@ router.put(
   handleInputError,
   updatePost
 )
+
+router.get('/forum/comment/latest', getLatestComment)
 
 router.delete('/forum/:id', protect, deletePost)
 router.delete('/comments/:id', protect, deleteComment)
