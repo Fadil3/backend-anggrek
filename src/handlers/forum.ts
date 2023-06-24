@@ -342,7 +342,6 @@ export const commentPost = async (req, res, next) => {
     })
 
     // send notification if not author of post
-
     if (post.author.id !== req.user.id) {
       const notifications = await prisma.notification.create({
         data: {
