@@ -341,17 +341,21 @@ export const commentPost = async (req, res, next) => {
       },
     })
 
-    const notifications = await prisma.notification.create({
-      data: {
-        message: `${req.user.name} mengomentari postingan anda`,
-        user: {
-          connect: {
-            id: post.author.id,
+    // send notification if not author of post
+
+    if (post.author.id !== req.user.id) {
+      const notifications = await prisma.notification.create({
+        data: {
+          message: `${req.user.name} mengomentari postingan anda`,
+          user: {
+            connect: {
+              id: post.author.id,
+            },
           },
+          link: `/forum/${post.slug}`,
         },
-        link: `/forum/${post.slug}`,
-      },
-    })
+      })
+    }
 
     res.json({
       message: 'Berhasil menambahkan komentar',
