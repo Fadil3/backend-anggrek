@@ -150,7 +150,7 @@ export const getProposedAnggrek = async (req, res, next) => {
             deletedAt: null,
           },
         })
-    const per_page = parseInt(req.query.per_page) || 5
+    const per_page = parseInt(req.query.per_page) || 10
     const anggrek = await prisma.anggrek.findMany({
       where: {
         deletedAt: null,
@@ -441,7 +441,7 @@ export const getAnggrek = async (req, res, next) => {
             isApproved: true,
           },
         })
-    const per_page = parseInt(req.query.per_page) || 5
+    const per_page = parseInt(req.query.per_page) || 10
     const anggrek = await prisma.anggrek.findMany({
       where: {
         deletedAt: null,
