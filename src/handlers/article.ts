@@ -53,7 +53,7 @@ export const getArticles = async (req, res, next) => {
           },
         })
       : await prisma.article.count()
-  const per_page = parseInt(req.query.per_page) || 5
+  const per_page = parseInt(req.query.per_page) || 10
 
   try {
     const article = await prisma.article.findMany({
