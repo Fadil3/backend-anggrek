@@ -145,7 +145,9 @@ export const getUserContributions = async (req, res) => {
         posts: {
           select: {
             id: true,
+            slug: true,
             title: true,
+            published: true,
           },
           take: 5,
           orderBy: {
@@ -155,7 +157,9 @@ export const getUserContributions = async (req, res) => {
         articles: {
           select: {
             id: true,
+            slug: true,
             title: true,
+            published: true,
           },
           take: 5,
           orderBy: {
@@ -167,7 +171,9 @@ export const getUserContributions = async (req, res) => {
             anggrek: {
               select: {
                 id: true,
+                slug: true,
                 name: true,
+                isApproved: true,
               },
             },
           },
@@ -182,6 +188,7 @@ export const getUserContributions = async (req, res) => {
               select: {
                 id: true,
                 name: true,
+                isApproved: true,
               },
             },
           },
