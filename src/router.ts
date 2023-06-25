@@ -111,7 +111,7 @@ router.put(
   editUserProfile
 )
 router.put(
-  '/change-password',
+  '/user/password',
   protect,
   body('old_password').exists().isString(),
   body('new_password').exists().isString(),
