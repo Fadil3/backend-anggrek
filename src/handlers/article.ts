@@ -286,7 +286,15 @@ export const updateArticle = async (req, res, next) => {
 }
 
 export const publishArticle = async (req, res, next) => {
-  if ((await isAdmin(req.user)) === false) {
+  const article = await prisma.article.findFirst({
+    where: { id: req.params.id },
+    include: { author: true },
+  })
+
+  if (
+    article.author.id !== req.user.id &&
+    (await isAdmin(req.user)) === false
+  ) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
@@ -329,7 +337,15 @@ export const publishArticle = async (req, res, next) => {
 }
 
 export const unpublishArticle = async (req, res, next) => {
-  if ((await isAdmin(req.user)) === false) {
+  const article = await prisma.article.findFirst({
+    where: { id: req.params.id },
+    include: { author: true },
+  })
+
+  if (
+    article.author.id !== req.user.id &&
+    (await isAdmin(req.user)) === false
+  ) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
   try {
@@ -423,21 +439,18 @@ export const deleteArticleUser = async (req, res, next) => {
     const articleGet = await prisma.article.findFirst({
       where: {
         id,
-        authorId: req.user.id,
       },
     })
 
-    if (!articleGet) {
-      return res.status(404).json({ message: 'Artikel tidak ditemukan' })
+    if (articleGet.authorId === req.user.id) {
+      const article = await prisma.article.delete({
+        where: {
+          id,
+        },
+      })
+      return res.json({ message: 'Berhasil menghapus artikel', data: article })
     }
-
-    const article = await prisma.article.delete({
-      where: {
-        id: req.params.id,
-      },
-    })
-
-    res.json({ message: 'Berhasil menghapus artikel', data: article })
+    // return res.status(404).json({ message: 'Artikel tidak ditemukan' })
   } catch (error) {
     next(error)
   }
