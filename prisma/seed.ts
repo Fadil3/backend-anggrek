@@ -283,7 +283,7 @@ Referensi
 
   const infographic_siram = await prisma.infographic.create({
     data: {
-      path: '/public/uploads/infographic/panduan_menyiram.png',
+      path: '/public/uploads/infographic/1_watering.png',
       articleId: artikel_siram.id,
     },
   })
@@ -340,7 +340,7 @@ Dressler, R. L. (2005). How many orchid species?. Selbyana, 155-158.
 
   const infographic_fakta = await prisma.infographic.create({
     data: {
-      path: '/public/uploads/infographic/fakta_anggrek.png',
+      path: '/public/uploads/infographic/3_fakta_anggrek.png',
       articleId: artikel_fakta.id,
     },
   })
@@ -440,7 +440,7 @@ Media tanam diatas dapat dicampur dengan media tanam lainnya. Kombinasi ini terg
 
   const infographic_metan = await prisma.infographic.create({
     data: {
-      path: '/public/uploads/infographic/media_tanam.png',
+      path: '/public/uploads/infographic/2_media_tanam.png',
       articleId: artikel_metan.id,
     },
   })
