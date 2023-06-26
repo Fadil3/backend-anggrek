@@ -9,8 +9,8 @@ async function main() {
   console.log('Start seeding ...')
   const fadil = await prisma.user.create({
     data: {
-      email: 'fadil@gmail.com',
-      name: 'fadil normal',
+      email: 'rayhanfadil10@gmail.com',
+      name: 'Muhammad Rayhan Fadillah',
       password: await hashPassword('fadil123'),
     },
   })
@@ -442,6 +442,58 @@ Media tanam diatas dapat dicampur dengan media tanam lainnya. Kombinasi ini terg
     data: {
       path: '/public/uploads/infographic/2_media_tanam.png',
       articleId: artikel_metan.id,
+    },
+  })
+
+  const artikel_cahaya = await prisma.article.create({
+    data: {
+      title: 'Cara Mudah mengukur Intensitas Cahaya',
+      content: `# Cara Mudah mengukur Intensitas Cahaya
+
+Setiap spesies anggrek memiliki kebutuhan cahaya yang berbeda-beda. Seperti individu-individu yang unik, mereka memiliki preferensi masing-masing ketika datang ke penerimaan sinar matahari. Dengan memberikan cahaya yang tepat, kita dapat membantu mereka tumbuh dan  berkembang dengan baik.
+
+Cara paling sederhana untuk mengukur intensitas cahaya adalah menggunakan bayangan dari tangan yang terkena sinar matahari dengan jarak 30 cm.
+
+Berikut ini merupakan illustrasi untuk mengukur intensitas cahaya anggrek dengan mudah.
+
+## Intensitas cahaya terang
+![intensitas cahaya terang](https://api.anggrekpedia.my.id//uploads/articles/4_Intensitas_cahaya_1.png)
+
+## Intensitas cahaya sedang
+![intensitas cahaya sedang](https://api.anggrekpedia.my.id//uploads/articles/4_Intensitas_cahaya_2.png)
+
+## Intensitas cahaya rendah
+![intensitas cahaya rendah](https://api.anggrekpedia.my.id//uploads/articles/4_Intensitas_cahaya_3.png)
+
+Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatnya, kunjungi Anggrekpedia.my.id untuk artikel-artikel menarik lainnya. Selamat membaca dan menjelajahi dunia indah anggrek!
+
+**Referensi**
+- Frowine, S. A., & National Gardening Association. (2022). Orchids for Dummies. John Wiley & Sons.
+`,
+      published: true,
+      slug: await createUniqueSlugArticle(
+        'Cara Mudah mengukur Intensitas Cahaya'
+      ),
+      description:
+        'Setiap spesies anggrek memiliki kebutuhan cahaya yang berbeda-beda. Seperti individu-individu yang unik, mereka memiliki preferensi masing-masing ketika datang ke penerimaan sinar matahari. Dengan memberikan cahaya yang tepat, kita dapat membantu mereka tumbuh dan  berkembang dengan baik.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+
+  const infographic_cahaya = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/4_Intensitas_cahaya.png',
+      articleId: artikel_cahaya.id,
     },
   })
 
