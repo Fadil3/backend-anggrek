@@ -563,7 +563,7 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
 Organisme Pengganggu Tumbuhan (OPT) adalah semua organisme yang dapat merusak, mengganggu kehidupan, atau menyebabkan kematian tumbuhan. Berikut ini merupakan penanganan jika anggrek terserang OPT.
 
 ## Aphids
-![monopodial](https://api.anggrekpedia.my.id//uploads/articles/7_OPT1.png)
+![Aphids](https://api.anggrekpedia.my.id//uploads/articles/7_OPT1.png)
 
 Aphids adalah serangga penghisap yang menyerang kuncup, bunga, dan pertumbuhan tanaman baru serta menularkan penyakit dari tanaman ke tanaman lainnya. Kuncup dan bunga dapat gagal untuk mekar, dan daun dapat memiliki lapisan lengket. Lapisan lengket tersebut dapat menjadi media jamur untuk tumbuh dan mengundang serangga lain seperti semut
 
@@ -573,7 +573,7 @@ Aphids adalah serangga penghisap yang menyerang kuncup, bunga, dan pertumbuhan t
 - Pelihara kepik. Kepik merupakan predator alami Aphids.
 
 ## Kutu Putih (Mealybugs)
-![simpodial](https://api.anggrekpedia.my.id//uploads/articles/7_OPT2.png)
+![kutu putih](https://api.anggrekpedia.my.id//uploads/articles/7_OPT2.png)
 
 Kutu putih merupakan serangga pengisap  yang menyerang semua bagian tanaman. Serangga ini menyebabkan daun menguning dan rontok sebelum waktunya.
 
@@ -638,6 +638,74 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
     data: {
       path: '/public/uploads/infographic/7_OPT.png',
       articleId: artikel_opt.id,
+    },
+  })
+
+  const artikel_phala = await prisma.article.create({
+    data: {
+      title: 'Mengenal Anggrek Bulan (Phalaenopsis Sp)',
+      content: `# Mengenal Anggrek Bulan (*Phalaenopsis Sp*)
+
+***Phalaenopsis*** merupakan anggrek yang paling populer. Anggrek ini sering ditemukan di perkantoran sebagai hiasan. Bentuk bunganya terbagi menjadi dua tipe  yaitu berbentuk bulat dan berbentuk bintang.
+
+Saat mekar, bunganya dapat bertahan hingga 2-3 bulan. Warna bunga sangat beragam dari mulai putih, merah muda, kuning, coklat dan merah.
+
+![phalaenopsis1](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis1.png)
+![phalaenopsis1](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis2.png)
+
+## Asal Daerah
+Anggrek bulan berasal dari hutan tropis Asia Tenggara.
+(https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis3.png)
+
+## Kondisi Lingkungan
+Agar anggrek bulan dapat tumbuh dan berkembang dengan baik, diperlukan suhu ideal seperti berikut :
+- **Suhu :** 18-28°C
+- **Kelembaban :** 60-80%
+- **Intensitas Cahaya :**  Sedang - Hindari cahaya matahari langsung.
+
+## Tipe Pertumbuhan
+(https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis4.png)
+Anggrek bulan tumbuh dengan satu batang utama dan menempel pada batang pohon lain untuk hidup (epifit). Selain itu, anggrek bulan juga dapat ditanam di pot dengan media tanam seperti sphagnum moss, akar kadaka, arang, dan sabut / serbuk kelapa.
+
+##Penyiraman
+(https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis5.png)
+Gunakan alat bantu seperti gembor, sprayer, dan mister. Siram saat media tanam kering. Siram sampai air keluar dari bawah pot. Lakukan penyiraman pada pagi hari dan sore hari jika diperlukan.
+
+##Pemupukan
+Gunakan pupuk dengan kandungan nitrogen tinggi setiap 2–3 penyiraman ketika daun baru tumbuh, atau setelah penggantian media tanam. Gunakan pupuk dengan kandungan kalium tinggi ketika daun telah tumbuh, untuk mendorong bunga baru.
+
+------------------
+
+
+Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatnya, kunjungi Anggrekpedia.my.id untuk artikel-artikel menarik lainnya. Selamat membaca dan menjelajahi dunia indah anggrek!
+
+**Referensi**
+
+- Permatasari, F., Gerry SP, Y., & Kesuma Dewi, R. (2020). Keanekaragaman Anggrek Di Taman Anggrek Badak LNG. ITS Press.
+- Rittershausen, S. (2019). Happy orchid: Help it flower, watch it flourish. Penguin.`,
+      published: true,
+      slug: await createUniqueSlugArticle(
+        'Mengenal Anggrek Bulan (Phalaenopsis Sp)'
+      ),
+      description:
+        'Phalaenopsis merupakan anggrek yang paling populer. Anggrek ini sering ditemukan di perkantoran sebagai hiasan. Bentuk bunganya terbagi menjadi dua tipe  yaitu berbentuk bulat dan berbentuk bintang.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+  const infographic_phala = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/6_phalaenopsis.png',
+      articleId: artikel_phala.id,
     },
   })
 
