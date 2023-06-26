@@ -654,8 +654,10 @@ Saat mekar, bunganya dapat bertahan hingga 2-3 bulan. Warna bunga sangat beragam
 ![phalaenopsis1](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis2.png)
 
 ## Asal Daerah
+
 Anggrek bulan berasal dari hutan tropis Asia Tenggara.
-(https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis3.png)
+
+![asal daerah](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis3.png)
 
 ## Kondisi Lingkungan
 Agar anggrek bulan dapat tumbuh dan berkembang dengan baik, diperlukan suhu ideal seperti berikut :
@@ -664,14 +666,17 @@ Agar anggrek bulan dapat tumbuh dan berkembang dengan baik, diperlukan suhu idea
 - **Intensitas Cahaya :**  Sedang - Hindari cahaya matahari langsung.
 
 ## Tipe Pertumbuhan
-(https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis4.png)
+
+![tipe tumbuh](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis4.png)
 Anggrek bulan tumbuh dengan satu batang utama dan menempel pada batang pohon lain untuk hidup (epifit). Selain itu, anggrek bulan juga dapat ditanam di pot dengan media tanam seperti sphagnum moss, akar kadaka, arang, dan sabut / serbuk kelapa.
 
 ##Penyiraman
-(https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis5.png)
+
+![penyiraman](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis5.png)
 Gunakan alat bantu seperti gembor, sprayer, dan mister. Siram saat media tanam kering. Siram sampai air keluar dari bawah pot. Lakukan penyiraman pada pagi hari dan sore hari jika diperlukan.
 
 ##Pemupukan
+
 Gunakan pupuk dengan kandungan nitrogen tinggi setiap 2–3 penyiraman ketika daun baru tumbuh, atau setelah penggantian media tanam. Gunakan pupuk dengan kandungan kalium tinggi ketika daun telah tumbuh, untuk mendorong bunga baru.
 
 ------------------
