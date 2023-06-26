@@ -555,6 +555,92 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
     },
   })
 
+  const artikel_opt = await prisma.article.create({
+    data: {
+      title: 'Pengendalian Organisme Pengganggu Tanaman (OPT) Anggrek',
+      content: `# Pengendalian Organisme Pengganggu Tanaman (OPT) Anggrek
+
+Organisme Pengganggu Tumbuhan (OPT) adalah semua organisme yang dapat merusak, mengganggu kehidupan, atau menyebabkan kematian tumbuhan. Berikut ini merupakan penanganan jika anggrek terserang OPT.
+
+## Aphids
+![monopodial](https://api.anggrekpedia.my.id//uploads/articles/7_OPT1.png)
+
+Aphids adalah serangga penghisap yang menyerang kuncup, bunga, dan pertumbuhan tanaman baru serta menularkan penyakit dari tanaman ke tanaman lainnya. Kuncup dan bunga dapat gagal untuk mekar, dan daun dapat memiliki lapisan lengket. Lapisan lengket tersebut dapat menjadi media jamur untuk tumbuh dan mengundang serangga lain seperti semut
+
+**Penanganan :**
+- Buang serangga yang menempel pada tanaman.
+- Gunakan insektisida sistemik.
+- Pelihara kepik. Kepik merupakan predator alami Aphids.
+
+## Kutu Putih (Mealybugs)
+![simpodial](https://api.anggrekpedia.my.id//uploads/articles/7_OPT2.png)
+
+Kutu putih merupakan serangga pengisap  yang menyerang semua bagian tanaman. Serangga ini menyebabkan daun menguning dan rontok sebelum waktunya.
+
+**Penanganan :**
+- Bersihkan bagian tanaman dengan kain yang diberi alkohol.
+- Jika ditemukan di media tanam, gunakan insektisida sistemik dan penggantian media tanam.
+
+## Kumbang Gajah
+![Kumbang Gajah](https://api.anggrekpedia.my.id//uploads/articles/7_OPT3.png)
+
+Kumbang Gajah merupakan serangga yang menyerang anggrek dengan cara melubangi batang tanaman untuk membuat sarang dan menelurkan larva di dalamnya.
+
+**Larva kumbang gajah**
+![Larva kumbang gajah](https://api.anggrekpedia.my.id//uploads/articles/7_OPT4.png)
+
+**Kerusakan akibat kumbang gajah**
+![Kerusakan akibat kumbang gajah](https://api.anggrekpedia.my.id//uploads/articles/7_OPT5.png)
+![Kerusakan akibat kumbang gajah](https://api.anggrekpedia.my.id//uploads/articles/7_OPT6.png)
+
+**Penanganan :**
+- Cari lubang pada batang tanaman. Potong batang lalu telusuri kerusakannya dan buang.
+- Rendam bagian tanaman yang masih bisa diselamatkan dengan insektisida.
+- Bakar tanaman untuk memusnahkan kumbang gajah.
+
+## Keong / Bekicot / Siput
+Keong adalah makhluk unik yang memiliki cangkang keras dan hidup di berbagai habitat. Mereka lambat dan menggunakan kaki perut mereka untuk bergerak. Keong juga memiliki beragam bentuk, ukuran, dan warna yang menarik. Mereka makan alga, detritus, dan tumbuhan hijau. Keong merupakan salah satu hama yang menyerang anggrek.
+
+**Penanganan :**
+- Gunakan potongan timun sebagai umpan. Simpan potongan timun pada sore hari dan periksa pada malam hari. Setelah keong berkumpul, buang semua.
+- Gunakan insektisida anti keong.
+
+![hati hati](https://api.anggrekpedia.my.id//uploads/articles/7_OPT9.png)
+
+Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatnya, kunjungi Anggrekpedia.my.id untuk artikel-artikel menarik lainnya. Selamat membaca dan menjelajahi dunia indah anggrek!
+
+**Referensi**
+
+- Frowine, S. A., & National Gardening Association. (2022). Orchids for Dummies. John Wiley & Sons.
+- Orchidophilus aterrimus observed in Palolo, Honolulu, HI, USA by Kevin Faccenda (licensed under https://creativecommons.org/licenses/by/4.0/)
+- Andriyani, A. (2018). Membuat Tanaman Anggrek Rajin Berbunga. AgroMedia.
+- Rittershausen, S. (2019). Happy orchid: Help it flower, watch it flourish. Penguin.`,
+      published: true,
+      slug: await createUniqueSlugArticle(
+        'Pengendalian Organisme Pengganggu Tanaman (OPT) Anggrek'
+      ),
+      description:
+        'Organisme Pengganggu Tumbuhan (OPT) adalah semua organisme yang dapat merusak, mengganggu kehidupan, atau menyebabkan kematian tumbuhan. Berikut ini merupakan penanganan jika anggrek terserang OPT.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+  const infographic_opt = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/7_OPT.png',
+      articleId: artikel_opt.id,
+    },
+  })
+
   const phalAmbon = await prisma.anggrek.create({
     data: {
       name: 'Phalaenopsis amboinensis',
