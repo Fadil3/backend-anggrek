@@ -502,8 +502,7 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
       title: 'Tipe Tumbuh Anggrek',
       content: `# Tipe Tumbuh Anggrek
 
-Pola pertumbuhan pada batang tanaman anggrek dibagi menjadi dua 
-kelompok yaitu : Monopodial dan Simpodial.
+Pola pertumbuhan pada batang tanaman anggrek dibagi menjadi dua kelompok yaitu : Monopodial dan Simpodial .
 
 Berikut ini merupakan sketsa dua jenis anggrek dengan pola pertumbuhan yang berbeda
 
