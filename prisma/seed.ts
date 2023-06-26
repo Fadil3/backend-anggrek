@@ -497,6 +497,65 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
     },
   })
 
+  const artikel_tipe_tumbuh = await prisma.article.create({
+    data: {
+      title: 'Tipe Tumbuh Anggrek',
+      content: `# Tipe Tumbuh Anggrek
+
+Pola pertumbuhan pada batang tanaman anggrek dibagi menjadi dua 
+kelompok yaitu : Monopodial dan Simpodial.
+
+Berikut ini merupakan sketsa dua jenis anggrek dengan pola pertumbuhan yang berbeda
+
+## Monopodial
+![monopodial](https://api.anggrekpedia.my.id//uploads/articles/5_tipe_tumbuh1.png)
+
+Jenis anggrek monopodial tumbuh dengan menggunakan **batang tunggal** yang terus meninggi.
+
+Karena **tidak mempunyai organ penyimpan air ** (pseudobulb), anggrek monopodial harus secara rutin disiram apabila media terlalu kering.
+
+Jenis anggrek yang termasuk ke dalam jenis ini diantaranya, Phalaenopsis sp., Vanda sp., Arachnis sp., Papilionanthe sp., dan lain lain.
+
+
+## Simpodal
+![simpodial](https://api.anggrekpedia.my.id//uploads/articles/5_tipe_tumbuh2.png)
+
+Jenis anggrek simpodial tidak **mempunyai batang inti** dan akan terus menerus menumbuhkan **pseudobulb** dari ujung rhizoma.
+
+**Pseudobulb** berfungsi sebagai tempat penyimpanan cadangan air sehingga anggrek simpodial dapat lebih tahan terhadap kekeringan.
+
+Jenis anggrek yang termasuk ke dalam jenis ini diantaranya, Dendrobium sp., Oncidium sp.,Cattleya sp., Cymbidium sp., Coelogyne sp., dan lain lain.
+
+
+Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatnya, kunjungi Anggrekpedia.my.id untuk artikel-artikel menarik lainnya. Selamat membaca dan menjelajahi dunia indah anggrek!
+
+**Referensi**
+- Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.
+- Permatasari, F., Gerry SP, Y., & Kesuma Dewi, R. (2020). Keanekaragaman Anggrek Di Taman Anggrek Badak LNG. ITS Press.`,
+      published: true,
+      slug: await createUniqueSlugArticle('Tipe Tumbuh Anggrek'),
+      description:
+        'Pola pertumbuhan pada batang tanaman anggrek dibagi menjadi dua kelompok yaitu : Monopodial dan Simpodial.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+  const infographic_tipe_tumbuh = await prisma.infographic.create({
+    data: {
+      path: '/public/uploads/infographic/5_tipe_tumbuh.png',
+      articleId: artikel_tipe_tumbuh.id,
+    },
+  })
+
   const phalAmbon = await prisma.anggrek.create({
     data: {
       name: 'Phalaenopsis amboinensis',
