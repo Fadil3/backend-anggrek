@@ -516,7 +516,7 @@ Karena **tidak mempunyai organ penyimpan air ** (pseudobulb), anggrek monopodial
 Jenis anggrek yang termasuk ke dalam jenis ini diantaranya, Phalaenopsis sp., Vanda sp., Arachnis sp., Papilionanthe sp., dan lain lain.
 
 
-## Simpodal
+## Simpodial
 ![simpodial](https://api.anggrekpedia.my.id//uploads/articles/5_tipe_tumbuh2.png)
 
 Jenis anggrek simpodial tidak **mempunyai batang inti** dan akan terus menerus menumbuhkan **pseudobulb** dari ujung rhizoma.
