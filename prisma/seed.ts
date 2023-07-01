@@ -316,8 +316,7 @@ Rasa vanila berasal dari tanaman  Vanili (Vanilla planifolia) yang merupakan ang
 
 **Referensi**
 - Rittershausen, S. (2019). Happy orchid: Help it flower, watch it flourish. Penguin.
-Kebun Raya Banua. (2021, November 25). Vanilla, Si anggrek perisa makanan. https://kebunrayabanua.kalselprov.go.id/web/?p=5356
-Dressler, R. L. (2005). How many orchid species?. Selbyana, 155-158.
+- Kebun Raya Banua. (2021, November 25). Vanilla, Si anggrek perisa makanan. https://kebunrayabanua.kalselprov.go.id/web/?p=5356 Dressler, R. L. (2005). How many orchid species?. Selbyana, 155-158.
 - Arditti, J., & Ghani, A. K. A. (2000). Tansley Review No. 110. Numerical and physical properties of orchid seeds and their biological implications. The New Phytologist, 145(3), 367-421.
 `,
       published: true,
@@ -511,7 +510,7 @@ Berikut ini merupakan sketsa dua jenis anggrek dengan pola pertumbuhan yang berb
 
 Jenis anggrek monopodial tumbuh dengan menggunakan **batang tunggal** yang terus meninggi.
 
-Karena **tidak mempunyai organ penyimpan air ** (pseudobulb), anggrek monopodial harus secara rutin disiram apabila media terlalu kering.
+Karena **tidak mempunyai organ penyimpan air** (pseudobulb), anggrek monopodial harus secara rutin disiram apabila media terlalu kering.
 
 Jenis anggrek yang termasuk ke dalam jenis ini diantaranya, Phalaenopsis sp., Vanda sp., Arachnis sp., Papilionanthe sp., dan lain lain.
 
@@ -674,11 +673,13 @@ Agar anggrek bulan dapat tumbuh dan berkembang dengan baik, diperlukan suhu idea
 Anggrek bulan tumbuh dengan satu batang utama dan menempel pada batang pohon lain untuk hidup (epifit). Selain itu, anggrek bulan juga dapat ditanam di pot dengan media tanam seperti sphagnum moss, akar kadaka, arang, dan sabut / serbuk kelapa.
 
 
+
 ## Penyiraman
 
 ![penyiraman](https://api.anggrekpedia.my.id//uploads/articles/6_phalaenopsis5.png)
 
 Gunakan alat bantu seperti gembor, sprayer, dan mister. Siram saat media tanam kering. Siram sampai air keluar dari bawah pot. Lakukan penyiraman pada pagi hari dan sore hari jika diperlukan.
+
 
 ## Pemupukan
 
