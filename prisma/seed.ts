@@ -719,6 +719,101 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
     },
   })
 
+  const artikel_apa = await prisma.article.create({
+    data: {
+      title: 'Apa itu Anggrek ?',
+      content: `# Apa itu Anggrek ?
+
+![anggrek](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek1.png "anggrek")
+
+Anggrek merupakan famili *Orchidaceae* . Sekitar 80 persen anggrek berasal dari  Amerika Tengah, Amerika Selatan dan Asia. Selain itu, sebagian kecil berasal dari Amerka Utara dan Eropa. Ada Sekitar 45.000 spesies anggrek di dunia. 5000 diantaranya ada di indonesia.  Dari jumlah spesies tersebut, sekitar 986 species tersebar di hutan pulau Jawa, 971 species berada di Sumatera, 1 13 species tumbuh di Maluku dan sisanya dapat ditemukan di Sulawesi, Irian Jaya, Nusa Tenggara dan Kalimantan. Dan diperkirakan sekitar 500 species adakah komoditas yang komersial untuk dikembangkan.
+
+## Kondisi lingkungan
+
+Setiap spesies  anggrek memiliki karakteristik yang berbeda beda. Ada tiga faktor yang dapat membuat anggrek tumbuh dan berkembang dengan baik yaitu :
+
+- Intensitas cahaya
+- Suhu
+- Kelembapan
+
+### Intensitas Cahaya
+
+Anggrek juga  pada cahaya yang tepat untuk pertumbuhannya. Beberapa spesies anggrek membutuhkan cahaya matahari langsung untuk tumbuh dengan baik, sementara yang lain lebih suka cahaya yang lebih teduh. Mereka telah mengembangkan cara unik untuk menyesuaikan diri dengan intensitas cahaya yang berbeda, baik itu hidup di bawah naungan pepohonan lebat atau di puncak pohon yang terkena sinar matahari langsung.
+
+### Suhu
+
+Beberapa anggrek dapat tumbuh subur di iklim tropis yang panas dan lembab, sedangkan yang lain lebih suka tumbuh di daerah yang lebih dingin dengan suhu yang lebih rendah.
+
+### Kelembapan
+
+Tidak hanya suhu dan cahaya, kelembapan juga merupakan faktor penting dalam kehidupan anggrek. Beberapa spesies anggrek membutuhkan kelembapan tinggi, seperti yang dapat ditemukan di hutan hujan, sementara yang lain dapat bertahan dalam kelembapan yang lebih rendah.
+
+
+## Morfologi Batang
+
+Pola pertumbuhan pada batang tanaman anggrek dibagi menjadi dua kelompok yaitu : Monopodial dan Simpodial.
+
+### Monopodial
+
+![monopodial](https://api.anggrekpedia.my.id//uploads/articles/5_tipe_tumbuh1.png "monopodial")
+
+Jenis anggrek monopodial tumbuh dengan menggunakan batang tunggal yang terus meninggi.
+
+Karena tidak mempunyai organ penyimpan air (pseudobulb), anggrek monopodial harus secara rutin disiram apabila media terlalu kering.
+
+Jenis anggrek yang termasuk ke dalam jenis ini diantaranya, 
+Phalaenopsis sp., Vanda sp., Arachnis sp., Papilionanthe sp., dll
+
+### Simpodial
+
+![simpodial](https://api.anggrekpedia.my.id//uploads/articles/5_tipe_tumbuh2.png)
+
+Jenis anggrek simpodial tidak mempunyai batang inti dan akan terus menerus menumbuhkan pseudobulb dari ujung rhizoma.
+
+Pseudobulb berfungsi sebagai tempat penyimpanan cadangan air sehingga anggrek simpodial dapat lebih tahan terhadap kekeringan.
+
+Jenis anggrek yang termasuk ke dalam jenis ini diantaranya, Dendrobium sp., Oncidium sp., Cattleya sp., Cymbidium sp., Coelogyne sp., dll.
+
+
+## Habitat
+
+Secara umum, ada dua habitat anggrek yaitu epifit dan terestial.
+
+### Epifit
+
+![epifit](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek3.png)
+
+Anggrek epifit hidup dengan cara menumpang pada tanaman lain tanpa merugikan tanaman yang ditumpangi. Beberapa jenis anggrek epifit antara lain Dendrobium, Vanda, Phalaenopsis, dan Oncidium.
+
+### Terestial
+
+![terestial](https://api.anggrekpedia.my.id//uploads/articles/terestial.png)
+
+Anggrek terestial hidup di permukaan tanah seperti tanaman pada umumnya. Beberapa jenis anggrek Terestial antara lain  Arundina, Spathoglottis, Arachnis, dan Macodes
+
+Referensi
+- Rittershausen, S. (2019). Happy orchid: Help it flower, watch it flourish. Penguin.
+- Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.
+- Permatasari, F., Gerry SP, Y., & Kesuma Dewi, R. (2020). Keanekaragaman Anggrek Di Taman Anggrek Badak LNG. ITS Press.
+`,
+      published: true,
+      slug: await createUniqueSlugArticle('Apa itu Anggrek ?'),
+      description:
+        'Anggrek merupakan famili *Orchidaceae* . Sekitar 80 persen anggrek berasal dari  Amerika Tengah, Amerika Selatan dan Asia. Selain itu, sebagian kecil berasal dari Amerka Utara dan Eropa. Ada Sekitar 45.000 spesies anggrek di dunia. 5000 diantaranya ada di indonesia.  Dari jumlah spesies tersebut, sekitar 986 species tersebar di hutan pulau Jawa, 971 species berada di Sumatera, 1 13 species tumbuh di Maluku dan sisanya dapat ditemukan di Sulawesi, Irian Jaya, Nusa Tenggara dan Kalimantan. Dan diperkirakan sekitar 500 species adakah komoditas yang komersial untuk dikembangkan.',
+      // connect to category
+      categories: {
+        create: {
+          categoryId: await categoryInformasi.id,
+        },
+      },
+      author: {
+        connect: {
+          id: fadil.id,
+        },
+      },
+    },
+  })
+
   const phalAmbon = await prisma.anggrek.create({
     data: {
       name: 'Phalaenopsis amboinensis',
