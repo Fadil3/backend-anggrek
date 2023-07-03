@@ -141,9 +141,6 @@ async function main() {
     {
       name: 'Cara Menanam',
     },
-    {
-      name: 'Perawatan',
-    },
   ]
   const ArticleCategory = await Promise.all([
     articleCategoryData.map(async (data) => {
@@ -156,6 +153,12 @@ async function main() {
   const categoryInformasi = await prisma.articleCategory.create({
     data: {
       name: 'Informasi Umum',
+    },
+  })
+
+  const categoryPerawatan = await prisma.articleCategory.create({
+    data: {
+      name: 'Perawatan',
     },
   })
 
@@ -270,7 +273,7 @@ Referensi
       // connect to category
       categories: {
         create: {
-          categoryId: await categoryInformasi.id,
+          categoryId: await categoryPerawatan.id,
         },
       },
       author: {
@@ -478,7 +481,7 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
       // connect to category
       categories: {
         create: {
-          categoryId: await categoryInformasi.id,
+          categoryId: await categoryPerawatan.id,
         },
       },
       author: {
@@ -623,7 +626,7 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
       // connect to category
       categories: {
         create: {
-          categoryId: await categoryInformasi.id,
+          categoryId: await categoryPerawatan.id,
         },
       },
       author: {
@@ -685,8 +688,7 @@ Gunakan alat bantu seperti gembor, sprayer, dan mister. Siram saat media tanam k
 
 Gunakan pupuk dengan kandungan nitrogen tinggi setiap 2–3 penyiraman ketika daun baru tumbuh, atau setelah penggantian media tanam. Gunakan pupuk dengan kandungan kalium tinggi ketika daun telah tumbuh, untuk mendorong bunga baru.
 
-------------------
-
+---
 
 Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatnya, kunjungi Anggrekpedia.my.id untuk artikel-artikel menarik lainnya. Selamat membaca dan menjelajahi dunia indah anggrek!
 
@@ -725,7 +727,7 @@ Jadi, jika Anda ingin mengetahui lebih banyak tentang anggrek dan cara merawatny
       title: 'Apa itu Anggrek ?',
       content: `# Apa itu Anggrek ?
 
-![anggrek](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek1.png "anggrek")
+![anggrek](https://api.anggrekpedia.my.id//uploads/articles/fakta_anggrek1.png)
 
 Anggrek merupakan famili *Orchidaceae* . Sekitar 80 persen anggrek berasal dari  Amerika Tengah, Amerika Selatan dan Asia. Selain itu, sebagian kecil berasal dari Amerka Utara dan Eropa. Ada Sekitar 45.000 spesies anggrek di dunia. 5000 diantaranya ada di indonesia.  Dari jumlah spesies tersebut, sekitar 986 species tersebar di hutan pulau Jawa, 971 species berada di Sumatera, 1 13 species tumbuh di Maluku dan sisanya dapat ditemukan di Sulawesi, Irian Jaya, Nusa Tenggara dan Kalimantan. Dan diperkirakan sekitar 500 species adakah komoditas yang komersial untuk dikembangkan.
 
