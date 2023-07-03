@@ -179,6 +179,23 @@ export const getDetailArticle = async (req, res, next) => {
       data: {
         ...article,
         infographic: article.infographic[0],
+        similiarArticle: await prisma.article.findMany({
+          where: {
+            categories: {
+              some: {
+                category: {
+                  id: {
+                    in: article.categories.map((cat) => cat.category.id),
+                  },
+                },
+              },
+            },
+            published: true,
+            id: {
+              not: article.id,
+            },
+          },
+        }),
       },
     })
   } catch (error) {

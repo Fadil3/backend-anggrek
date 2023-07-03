@@ -821,7 +821,11 @@ Referensi
     data: {
       name: 'Phalaenopsis amboinensis',
       slug: await createUniqueSlugAnggrek('Phalaenopsis amboinensis'),
-      description: `Jenis ini berasal dari Ambon. Karena ditemukan untuk pertama kalinya di sana maka dinamakan anggrek bulan Ambon. Selain di Ambon, tumbuhan ini tersebar luas di daerah Maluku dan Irian Jaya. Masing-masing bunga bergaris tengah 5 cm,berwarna kuning kecoklatan dengan hiasan garis-garis pendek melintang warna coklat kemerahan. Bunga-bunga tersebut tersusun dalam perbungaan dengan gagang yang pendek. Daun kelopak dan daun mah-kota hampir sama besar, berbentuk lanset, berujung runcing. Tiap tandan memiliki ± 4 bunga.Pemeliharaannya mudah sekali. Tanamannya hanya ditempelkan pada pohon atau pada sekeping pakis. Penyiraman dan pemupukan perlu diberikan sewaktu-waktu. Untuk hidupnya, jenis ini menyukai tempat yang agak teduh dan lembab.  Di Kebun Raya Bogor, koleksi yang berasal dari Seram dan Sulawesi berbunga pada bulan-bulan Januari, Maret dan September.Lama mekar bunganya rata-rata seminggu.`,
+      description: `Jenis ini berasal dari Ambon. Karena ditemukan untuk pertama kalinya di sana maka dinamakan anggrek bulan Ambon. Selain di Ambon, tumbuhan ini tersebar luas di daerah Maluku dan Irian Jaya. 
+      
+      Masing-masing bunga bergaris tengah 5 cm,berwarna kuning kecoklatan dengan hiasan garis-garis pendek melintang warna coklat kemerahan. Bunga-bunga tersebut tersusun dalam perbungaan dengan gagang yang pendek. Daun kelopak dan daun mah-kota hampir sama besar, berbentuk lanset, berujung runcing. Tiap tandan memiliki ± 4 bunga.Pemeliharaannya mudah sekali. Tanamannya hanya ditempelkan pada pohon atau pada sekeping pakis. Penyiraman dan pemupukan perlu diberikan sewaktu-waktu.
+      
+      Untuk hidupnya, jenis ini menyukai tempat yang agak teduh dan lembab. Di Kebun Raya Bogor, koleksi yang berasal dari Seram dan Sulawesi berbunga pada bulan-bulan Januari, Maret dan September.Lama mekar bunganya rata-rata seminggu.`,
       localName: 'Anggrek Bulan Ambon',
       genus: 'phalaenopsis',
       degree: '',
@@ -867,7 +871,9 @@ Referensi
       genus: 'vanda',
       slug: await createUniqueSlugAnggrek('Vanda sumatrana Schltr.'),
       description: `Tanaman ini berasal dari pulau Sumatera, karenanya dalam ilmu tumbuh-tumbuhan dinamakan Vanda sumatrana.
+
 Batangnya tegak, kuat dan dapat mencapai tinggi 1,5 m. Daunnya Merupakan tipe daun sabuk dengan panjang ± 45 cm; tersusun rapat dan melengkung ke luar. Bunganya tersusun dalam bentuk tandan yang muncul dari ketiak daun. Setiap tandan menyangga 2 - 7 kuntum bunga. Bunganya berwarna gelap, merah coklat pada pangkal daun-daun mahkotanya sedangkan ujung-ujungnya berwarna coklat kehitaman. Garis tengahnya 5 - 7 cm. Buahnya berbentuk jorong dan bersekat enam.
+
 Umumnya vanda sumatra ini tumbuh baik di dataran rendah. Bunganya memiliki keharuman yang lembut mirip bau kayu manis. Ke-tahanan mekarnya antara 10 - 14 hari.`,
       localName: 'Anggrek Vanda Sumatera',
       degree: '',
@@ -906,8 +912,10 @@ Umumnya vanda sumatra ini tumbuh baik di dataran rendah. Bunganya memiliki kehar
       name: 'Cymbidium hartinahianum',
       slug: await createUniqueSlugAnggrek('Cymbidium hartinahianum'),
       genus: 'cymbidium',
-      description: `Nama jenis hartinahianum berasal dari nama Siti Hartinah Suharto.Yang memberi nama ialah J.B.Com-ber dan Rusydi E. Nasution. Sdr. R.E. Nasution adalah salah seorang staf Kebun Raya Bogor yang mempunyai minat dalam penelitian anggrek.
-Tumbuhan ini adalah anggrek tanah yang pertumbuhannya merumpun. Batangnya sangat pendek, berbentuk bulat telur, tertutup rapat oleh daun. Daunnya berbentuk pita berujung runcing, panjangnya 50-60 cm. Bunganya berbentuk bintang,berukuran 3,5 cm,bertekstur tebal. Daun kelopak dan daun mahkota hampir sama besar. sedang permukaan atas berwarna kuning kehijauan dan permukaan bawahnya berwarna kecoklatan dengan kuning di bagian tepinya. Gagang perjuangannya tegak.
+      description: `Nama jenis hartinahianum berasal dari nama Siti Hartinah Suharto.Yang memberi nama ialah J.B.Comber dan Rusydi E. Nasution. Sdr. R.E. Nasution adalah salah seorang staf Kebun Raya Bogor yang mempunyai minat dalam penelitian anggrek.
+
+Tumbuhan ini adalah anggrek tanah yang pertumbuhannya merumpun. Batangnya sangat pendek, berbentuk bulat telur, tertutup rapat oleh daun. Daunnya berbentuk pita berujung runcing, panjangnya 50-60 cm. Bunganya berbentuk bintang,berukuran 3,5 cm,bertekstur tebal. Daun kelopak dan daun mahkota hampir sama besar. sedang permukaan atas berwarna kuning kehijauan dan permukaan bawahnya berwarna kecoklatan dengan kuning di bagian tepinya.
+
 Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tumbuh baik di tempat terbuka di antara rerumputan,pada ketinggian 1.700 m dpl. Di tempat asalnya anggrek ini belum dimanfaatkan, tetapi bunganya yang menarik dapat digunakan sebagai bunga potongan atau sebagai tanaman hias. Umumnya Cymbidium. mempunyai karangan bunga yang merunduk. Tetapi  ini termasuk Cymbidium yang mempunyai karangan bunga tegak, karenanya baik untuk silangan`,
       localName: 'Anggrek Vanda Sumatera',
       degree: '',
@@ -946,12 +954,15 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       name: `Phalaenopsis amabilis (L.) Blume`,
       slug: await createUniqueSlugAnggrek('Phalaenopsis amabilis (L.) Blume'),
       genus: 'phalaenopsis',
-      description: ``,
+      description: `Tipe tumbuh epifit. Banyak ditemukan didaerah Mentawai, Jawa, Kalimantan, Sulawesi, Maluku, Papua, Australia (Queenstand) dan Filipina Utara. Bentuk bunga bulat dengan diameter sekitar 8 cm.
+      
+      Struktur bunganya lembut, mulus dengan ketahanan bunga sampai 3 bulan Panjang tangkai bunga mencapai 100 cm berisi 20 kuntum bunga. Tempat tumbuh sampai 1500 mdpl. Tumbuh baik pada kondisi cahaya sinar matahari sekitar 50 % (sedang).`,
       localName: 'Anggrek Bulan',
-      degree: '',
-      light: '',
-      humidity: '',
-      references: '',
+      degree: '18-28 °C',
+      light: 'Sedang',
+      humidity: '60-80%',
+      references:
+        'Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.',
       isApproved: true,
       contributor: {
         create: {
@@ -992,9 +1003,10 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       description: ``,
       localName: 'Anggrek Merpati',
       degree: '',
-      light: '',
+      light: 'Sedang',
       humidity: '',
-      references: '',
+      references:
+        'https://www.monaconatureencyclopedia.com/dendrobium-crumenatum/?lang=en',
       isApproved: true,
       contributor: {
         create: {
