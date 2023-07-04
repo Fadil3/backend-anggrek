@@ -1197,7 +1197,7 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       name: `Phalaenopsis schilleriana Rchb.f.`,
       slug: await createUniqueSlugAnggrek('Phalaenopsis schilleriana'),
       genus: 'phalaenopsis',
-      description: `Tipe tumbuh epifit. Spesies ini berasal dari Filipina ditemukan di pulau Luzon dan pantai timur beberapa pulau terdekat. Tumbuh di ketinggian 450 m di cabang-cabang pohon. Bunganya ditanggung pada perbungaan melengkung ke liontin yang dapat tumbuh hingga 1m panjangnya. Bunganya memiliki lebar 7-8 cm dan memiliki sepal dan kelopak merah muda pucat dengan pinggiran putih. Bibir bunga memiliki tiga lobus, lobus lateral tegak dan melebar ke luar, lobus tengah berbentuk bulat telur dengan dua pelengkap seperti rambut tumbuh dari ujungnya.`,
+      description: `Tipe tumbuh epifit. Spesies ini berasal dari Filipina ditemukan di pulau Luzon dan pantai timur beberapa pulau terdekat. Tumbuh di ketinggian 450 m di cabang-cabang pohon.Bunganya memiliki lebar 7-8 cm dan memiliki sepal dan kelopak merah muda pucat dengan pinggiran putih. Bibir bunga memiliki tiga lobus, lobus lateral tegak dan melebar ke luar, lobus tengah berbentuk bulat telur dengan dua pelengkap seperti rambut tumbuh dari ujungnya.`,
       localName: '',
       degree: '18-28 °C',
       light: 'Rendah',
