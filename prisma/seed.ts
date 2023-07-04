@@ -1044,12 +1044,17 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       name: `Dendrobium anosmum`,
       slug: await createUniqueSlugAnggrek('Dendrobium anosmum'),
       genus: 'dendrobium',
-      description: ``,
+      description: `Dendrobium ini tersebar mulai dari Thailand, Malaysia, indonesia, Filipina dan Papua Nugini. Panjang batang semu antara 50 - 100 cm. Berbunga ketika seluruh daunnya rontok dan ketahanan bunga sampai 3 minggu. Saat berbunga pada bulan Agustus - September. Tumbuh baik pada dataran rendah hingga tinggi (1000 mdpl) dengan intensitas cahaya matahari 50%.`,
       localName: '',
-      degree: '',
-      light: '',
-      humidity: '',
-      references: '',
+      degree: '26-30 °C',
+      light: 'Sedang',
+      humidity: ' 70-85%',
+      references: `Adisarwanto, T., Irawati, Handoyo, F., Novianto, Santoso, D. S., Mintarto, R. T., Rahayu, N., Watiningsih, Sutiwi, W., Sipayung, L., Erawati, N., Hernita, P. P., Wibowo, A. Y., Yuniardi, O., & Suwarno, E. (2012). Anggrek spesies Indonesia. DIREKTORAT PERBENIHAN HORTIKULTURA DIREKTORAT JENDERAL HORTIKULTURA KEMENTRIAN PERTANIAN REPUBLIK INDONESIA.;
+
+      Tree of Life - Dendrobium anosmum care and culture - https://www.facebook.com/infotreeoflife/photos/a.624248637745118/1505396209630352/?type=3 ;
+
+      Dendrobium anosmum - https://www.monaconatureencyclopedia.com/dendrobium-anosmum/?lang=en ;
+      `,
       isApproved: true,
       contributor: {
         create: {
