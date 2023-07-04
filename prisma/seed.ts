@@ -55,17 +55,27 @@ async function main() {
       name: 'Metan',
       description: 'Metan merupakan akronim dari media tanam.',
     },
+    // {
+    //   name: 'Spike',
+    //   description: '',
+    // },
+    // {
+    //   name: 'knop / knob',
+    //   description: '',
+    // },
+    // {
+    //   name: 'Seedling',
+    //   description: '',
+    // },
     {
-      name: 'Spike',
-      description: '',
+      name: 'FSFR',
+      description:
+        'Full sun, Full rain. Istilah untuk anggrek yang disimpan di ruangan terbuka sehingga terkena hujan dan cahaya matahari secara penuh.',
     },
     {
-      name: 'knop / knob',
-      description: '',
-    },
-    {
-      name: 'Seedling',
-      description: '',
+      name: 'NPK',
+      description:
+        'Komposisi pupuk yang mengandung nitrogen (N), phosphor (P), dan kalium (K).',
     },
   ]
 
@@ -831,7 +841,7 @@ Referensi
       degree: '',
       light: '',
       humidity: '',
-      references: '',
+      references: `Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.`,
       isApproved: true,
       contributor: {
         create: {
@@ -879,7 +889,7 @@ Umumnya vanda sumatra ini tumbuh baik di dataran rendah. Bunganya memiliki kehar
       degree: '',
       light: '',
       humidity: '',
-      references: '',
+      references: `Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.`,
       isApproved: true,
       contributor: {
         create: {
@@ -921,7 +931,7 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       degree: '',
       light: '',
       humidity: '',
-      references: '',
+      references: `Lembaga Biologi Nasional - LIPI. (1979). Jenis Jenis Anggrek. PN Balai Pustaka.`,
       isApproved: true,
       contributor: {
         create: {
@@ -1000,13 +1010,19 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       name: `Dendrobium crumenatum`,
       slug: await createUniqueSlugAnggrek('Dendrobium crumenatum'),
       genus: 'dendrobium',
-      description: ``,
+      description: `Anggrek Merpati merupakan anggrek dengan tipe tumbuh epifit. Spesies ini berasal dari daerah di Asia tropis (Kepulauan Andaman, Kalimantan, Kamboja, Pulau Christmas, India, Jawa, Kepulauan Sunda Kecil, Kepulauan Maluku, Malaysia, Myanmar, Nugini, Filipina, Sri Lanka, Sulawesi, Sumatra, Thailand dan Vietnam). Tanaman ini hidup di dataran rendah hingga ketinggian 1000 mdpl.`,
       localName: 'Anggrek Merpati',
-      degree: '',
+      degree: '26-30 °C',
       light: 'Sedang',
-      humidity: '',
-      references:
-        'https://www.monaconatureencyclopedia.com/dendrobium-crumenatum/?lang=en',
+      humidity: '60-80%',
+      references: `
+      https://www.monaconatureencyclopedia.com/dendrobium-crumenatum/?lang=en;
+      
+      https://www.socfindoconservation.co.id/plant/152
+
+      https://www.nparks.gov.sg/florafaunaweb/flora/1/9/1924
+      `,
+
       isApproved: true,
       contributor: {
         create: {
@@ -1092,12 +1108,15 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       name: `Vanda tricolor`,
       slug: await createUniqueSlugAnggrek('Vanda tricolor'),
       genus: 'vanda',
-      description: ``,
+      description: `Tipe tumbuh epifit. Tersebar di daerah P Jawa dan Bati. Tanaman bisa mencapai tinggi sampai 200 cm. Tanda Bunganya tegak, panjangnya dapat mencapai 20 - 40 cm dan terdapat sekitar 18 kuntum. Diameter bunga antara 4-7 cm. Bunganya harum. Ketahanan bunga 2-3 minggu. Warna sepal dan petal putih berbintik spot merah. Labellum sedikit coklat dan putih.`,
       localName: '',
-      degree: '',
-      light: '',
-      humidity: '',
-      references: '',
+      degree: '20-28°C',
+      light: 'Terang',
+      humidity: '71% - 89%',
+      references: `Adisarwanto, T., Irawati, Handoyo, F., Novianto, Santoso, D. S., Mintarto, R. T., Rahayu, N., Watiningsih, Sutiwi, W., Sipayung, L., Erawati, N., Hernita, P. P., Wibowo, A. Y., Yuniardi, O., & Suwarno, E. (2012). Anggrek spesies Indonesia. DIREKTORAT PERBENIHAN HORTIKULTURA DIREKTORAT JENDERAL HORTIKULTURA KEMENTRIAN PERTANIAN REPUBLIK INDONESIA.;
+
+      Yulia, N. D., & Ariyanti, E. E. (2021, May). Orchids diversity at RPH Ngebel, Ponorogo, East Java. In IOP Conference Series: Earth and Environmental Science (Vol. 743, No. 1, p. 012070). IOP Publishing.;
+      `,
       isApproved: true,
       contributor: {
         create: {
@@ -1135,12 +1154,12 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
       name: `Phalaenopsis modesta`,
       slug: await createUniqueSlugAnggrek('Phalaenopsis modesta'),
       genus: 'phalaenopsis',
-      description: ``,
+      description: `Dendrobium ini tersebar mulai dari Thailand, Malaysia, indonesia, Filipina dan Papua Nugini. Panjang batang semu antara 50 - 100 cm. Berbunga ketika seluruh daunnya rontok dan ketahanan bunga sampai 3 minggu. Saat berbunga pada bulan Agustus - September. Tumbuh baik pada dataran rendah hingga tinggi (1000 m dpl) dengan intensitas cahaya matahari 50%.`,
       localName: '',
-      degree: '',
-      light: '',
-      humidity: '',
-      references: '',
+      degree: '18-28 °C',
+      light: 'Sedang',
+      humidity: '60-80%',
+      references: `Adisarwanto, T., Irawati, Handoyo, F., Novianto, Santoso, D. S., Mintarto, R. T., Rahayu, N., Watiningsih, Sutiwi, W., Sipayung, L., Erawati, N., Hernita, P. P., Wibowo, A. Y., Yuniardi, O., & Suwarno, E. (2012). Anggrek spesies Indonesia. DIREKTORAT PERBENIHAN HORTIKULTURA DIREKTORAT JENDERAL HORTIKULTURA KEMENTRIAN PERTANIAN REPUBLIK INDONESIA.;`,
       isApproved: true,
       contributor: {
         create: {
@@ -1175,15 +1194,20 @@ Jenis ini dijumpai tumbuh hanya di daerah Sidikalang, Sumatera Utara. Umumnya tu
 
   const schlr = await prisma.anggrek.create({
     data: {
-      name: `Phalaenopsis schilleriana`,
+      name: `Phalaenopsis schilleriana Rchb.f.`,
       slug: await createUniqueSlugAnggrek('Phalaenopsis schilleriana'),
       genus: 'phalaenopsis',
-      description: ``,
+      description: `Tipe tumbuh epifit. Spesies ini berasal dari Filipina ditemukan di pulau Luzon dan pantai timur beberapa pulau terdekat. Tumbuh di ketinggian 450 m di cabang-cabang pohon. Bunganya ditanggung pada perbungaan melengkung ke liontin yang dapat tumbuh hingga 1m panjangnya. Bunganya memiliki lebar 7-8 cm dan memiliki sepal dan kelopak merah muda pucat dengan pinggiran putih. Bibir bunga memiliki tiga lobus, lobus lateral tegak dan melebar ke luar, lobus tengah berbentuk bulat telur dengan dua pelengkap seperti rambut tumbuh dari ujungnya.`,
       localName: '',
-      degree: '',
-      light: '',
-      humidity: '',
-      references: '',
+      degree: '18-28 °C',
+      light: 'Rendah',
+      humidity: '60-80%',
+      references: `https://www.nparks.gov.sg/florafaunaweb/flora/6/1/6196
+
+      https://www.monaconatureencyclopedia.com/phalaenopsis-schilleriana/?lang=en
+
+      https://www.evergreenseeds.com/phalaenopsis-schilleriana/
+      `,
       isApproved: true,
       contributor: {
         create: {
