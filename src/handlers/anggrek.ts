@@ -425,22 +425,27 @@ export const getAnggrek = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
     const search = req.query.search || ''
-    const count = search
-      ? await prisma.anggrek.count({
-          where: {
-            deletedAt: null,
-            name: {
-              contains: search,
-              mode: 'insensitive',
+    const genusSearch = req.query.genus || ''
+    const count =
+      search || genusSearch
+        ? await prisma.anggrek.count({
+            where: {
+              deletedAt: null,
+              name: {
+                contains: search,
+                mode: 'insensitive',
+              },
+              genus: {
+                contains: genusSearch,
+              },
             },
-          },
-        })
-      : await prisma.anggrek.count({
-          where: {
-            deletedAt: null,
-            isApproved: true,
-          },
-        })
+          })
+        : await prisma.anggrek.count({
+            where: {
+              deletedAt: null,
+              isApproved: true,
+            },
+          })
     const per_page = parseInt(req.query.per_page) || 10
     const anggrek = await prisma.anggrek.findMany({
       where: {
@@ -449,6 +454,9 @@ export const getAnggrek = async (req, res, next) => {
         name: {
           contains: search,
           mode: 'insensitive',
+        },
+        genus: {
+          contains: genusSearch,
         },
       },
       skip: (page - 1) * per_page,
