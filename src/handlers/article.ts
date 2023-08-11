@@ -495,7 +495,7 @@ export const uploadImageArticle = async (req, res, next) => {
 
 export const uploadImageInfographic = async (req, res, next) => {
   try {
-    console.log('req', req.params.id)
+    // console.log('req', req.params.id)
     //get infographic id
     const article = await prisma.article.findFirst({
       where: {
@@ -503,7 +503,7 @@ export const uploadImageInfographic = async (req, res, next) => {
       },
     })
 
-    console.log('article', article)
+    // console.log('article', article)
 
     // get article infographic
     const infographic = await prisma.infographic.findFirst({
