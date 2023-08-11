@@ -229,7 +229,7 @@ export const createArticle = async (req, res, next) => {
       },
     })
 
-    if (req.files) {
+    if (req.file) {
       try {
         const imageUpload = await prisma.infographic.create({
           data: {
@@ -237,7 +237,6 @@ export const createArticle = async (req, res, next) => {
             articleId: article.id,
           },
         })
-        // console.log('imageUpload', imageUpload)
       } catch (error) {
         console.log(error)
         next(error)
@@ -496,10 +495,29 @@ export const uploadImageArticle = async (req, res, next) => {
 
 export const uploadImageInfographic = async (req, res, next) => {
   try {
-    const image = await prisma.infographic.create({
+    console.log('req', req.params.id)
+    //get infographic id
+    const article = await prisma.article.findFirst({
+      where: {
+        slug: req.params.id,
+      },
+    })
+
+    console.log('article', article)
+
+    // get article infographic
+    const infographic = await prisma.infographic.findFirst({
+      where: {
+        articleId: article.id,
+      },
+    })
+
+    const image = await prisma.infographic.update({
       data: {
         path: '/public/uploads/infographic/' + req.file.filename,
-        articleId: req.params.id,
+      },
+      where: {
+        id: infographic.id,
       },
     })
 
@@ -508,21 +526,31 @@ export const uploadImageInfographic = async (req, res, next) => {
 
     res.json({ message: 'Image berhasil diupload', data: image })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 }
 
 export const deleteImageInfographic = async (req, res, next) => {
   try {
-    const image = await prisma.infographic.delete({
+    // get image path
+    const imagePath = await prisma.infographic.findFirst({
       where: {
         id: req.params.id,
       },
     })
 
-    // delete image from server
+    const image = await prisma.infographic.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        path: '',
+      },
+    })
+
     const fs = require('fs')
-    const path = __dirname + '/../../' + image.path
+    const path = __dirname + '/../../' + imagePath.path
     fs.unlink(`${path}`, (err) => {
       if (err) {
         console.error(err)
