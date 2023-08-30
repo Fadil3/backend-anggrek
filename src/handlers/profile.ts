@@ -230,12 +230,13 @@ export const editUserProfile = async (req, res) => {
     })
 
     // update token
-    const access_token = createJWT(user)
+    const access_token = await createJWT(user)
 
     res.json({
       message: 'Berhasil update profil',
       data: { user, access_token },
     })
+    console.log(access_token)
 
     // res.json({ message: 'Berhasil update profil', data: user })
   } catch (error) {
