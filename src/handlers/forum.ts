@@ -1,6 +1,8 @@
 import prisma from '../db'
 import { isAdmin } from '../modules/auth'
 import { createUniqueSlugPost } from '../modules/slug'
+import { MailtrapClient } from 'mailtrap'
+import config from '../config'
 
 export const getPosts = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
@@ -324,8 +326,10 @@ export const commentPost = async (req, res, next) => {
         author: {
           select: {
             id: true,
+            email: true,
           },
         },
+        title: true,
         slug: true,
       },
     })
@@ -354,6 +358,32 @@ export const commentPost = async (req, res, next) => {
           link: `/forum/${post.slug}`,
         },
       })
+
+      const client = new MailtrapClient({
+        endpoint: config.mailTrapApi,
+        token: config.mailTrapToken,
+      })
+
+      const sender = {
+        email: 'mailtrap@anggrekpedia.my.id',
+        name: 'Anggrekpedia',
+      }
+
+      const recipient = [
+        {
+          email: post.author.email,
+        },
+      ]
+
+      client
+        .send({
+          from: sender,
+          to: recipient,
+          subject: 'Ada komentar baru di postingan anda',
+          text: `${req.user.name} mengomentari postingan anda yang berjudul ${post.title}`,
+          category: 'Notification comment',
+        })
+        .then(console.log, console.error)
     }
 
     res.json({
