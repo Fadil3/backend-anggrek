@@ -229,7 +229,15 @@ export const editUserProfile = async (req, res) => {
       },
     })
 
-    res.json({ message: 'Berhasil update profil', data: user })
+    // update token
+    const access_token = createJWT(user)
+
+    res.json({
+      message: 'Berhasil update profil',
+      data: { user, access_token },
+    })
+
+    // res.json({ message: 'Berhasil update profil', data: user })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ message: 'Internal server error' })
