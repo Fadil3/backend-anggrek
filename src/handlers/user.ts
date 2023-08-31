@@ -125,6 +125,10 @@ export const forgotPassword = async (req, res, next) => {
         category: 'forgot-password',
       })
       .then(console.log, console.error)
+
+    res.json({
+      message: 'Password berhasil direset',
+    })
   } catch (error) {
     console.log(error)
     error.type = 'input'
