@@ -6,6 +6,9 @@ import {
   comparePasswords,
 } from '../modules/auth'
 
+import { MailtrapClient } from 'mailtrap'
+import config from '../config'
+
 export const createNewUser = async (req, res, next) => {
   // Check if user already exists
   const userExists = await prisma.user.findUnique({
@@ -69,6 +72,64 @@ export const signIn = async (req, res) => {
       access_token,
     },
   })
+}
+
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: req.body.email,
+      },
+    })
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    // update password with random string
+    const newPassword = Math.random().toString(36).slice(-8)
+    const hash = await hashPassword(newPassword)
+
+    await prisma.user.update({
+      where: {
+        email: req.body.email,
+      },
+      data: {
+        password: hash,
+      },
+    })
+
+    // send email
+    const client = new MailtrapClient({
+      endpoint: config.mailTrapApi,
+      token: config.mailTrapToken,
+    })
+
+    const sender = {
+      email: 'mailtrap@anggrekpedia.my.id',
+      name: 'Anggrekpedia',
+    }
+
+    const recipient = [
+      {
+        email: req.body.email,
+      },
+    ]
+
+    client
+      .send({
+        from: sender,
+        to: recipient,
+        subject: 'lupa password',
+        text: `password baru anda adalah ${newPassword}`,
+        category: 'forgot-password',
+      })
+      .then(console.log, console.error)
+  } catch (error) {
+    console.log(error)
+    error.type = 'input'
+    next(error)
+  }
 }
 
 export const checkAdmin = async (req, res, next) => {
