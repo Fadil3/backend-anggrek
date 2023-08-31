@@ -81,6 +81,7 @@ import { multerUploadImage } from './modules/uploadImage'
 import { protect } from './modules/auth'
 import { handleInputError } from './modules/middleware'
 import rateLimit from 'express-rate-limit'
+import { forgotPassword } from './handlers/user'
 
 const router = Router()
 const postLimiter = rateLimit({
@@ -117,6 +118,12 @@ router.put(
   body('new_password').exists().isString(),
   handleInputError,
   changePasswordUser
+)
+router.post(
+  '/forgot-password',
+  body('email').exists().isEmail(),
+  handleInputError,
+  forgotPassword
 )
 
 router.get('/notifications/:id', getNotification)
